@@ -84,10 +84,10 @@ namespace _OLC1__Proyecto2.Classes
             var ID = new NonTerminal("ID");
             var ARRAYS = new NonTerminal("ARRAYS");
             var DOWHILE = new NonTerminal("DOWHILE");
-            var Comprobar = new NonTerminal("Comprobar");
-            var Casos = new NonTerminal("Casos");
-            var Default = new NonTerminal("Default");
-            var Casos2 = new NonTerminal("Casos2");
+            var SWITCH = new NonTerminal("SWITCH");
+            var CASE = new NonTerminal("CASE");
+            var DEFAULT = new NonTerminal("DEFAULT");
+            var CASE2 = new NonTerminal("CASE2");
             ////----------------------------------Innecesary nodes
             this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",","si","para","repetir","mientras","show","hacer");
             this.MarkTransient(BODY, ASSIGN2, DECLARATION2, ARRAY2,ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT,ESINGLE, ASSIGN,ARRAY);
@@ -113,12 +113,12 @@ namespace _OLC1__Proyecto2.Classes
             DOWHILE.Rule = ToTerm("hacer") + "{" + START + "}" + ToTerm("mientras") + "(" + E + ")" + ";";
             DOWHILE.ErrorRule = SyntaxError + "}";
             DOWHILE.ErrorRule = SyntaxError + ";";
-            Comprobar.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + Casos + Default + "}";
-            Comprobar.ErrorRule = SyntaxError + "}";
-            Comprobar.ErrorRule = SyntaxError + ";";
-            Casos.Rule = Casos2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
-            Casos2.Rule = Empty | Casos2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
-            Default.Rule = ToTerm("defecto") + ":" + START + ToTerm("salir") + ";" | Empty;
+            SWITCH.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + CASE + DEFAULT + "}";
+            SWITCH.ErrorRule = SyntaxError + "}";
+            SWITCH.ErrorRule = SyntaxError + ";";
+            CASE.Rule = CASE2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
+            CASE2.Rule = Empty | CASE2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
+            DEFAULT.Rule = ToTerm("defecto") + ":" + START + ToTerm("salir") + ";" | Empty;
 
             //datatypes 
             DATATYPE.Rule = ToTerm("int") | "bool" | "string" | "double" | "char";
