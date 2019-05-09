@@ -336,6 +336,26 @@ namespace _OLC1__Proyecto2.Classes
                         }
                     }
                     break;
+                case "DOWHILE":
+                    {
+                        Result boolean = execute(hijos[1]);
+                        if (boolean.Type != "bool")
+                        {
+                            //Si el numero de veces no es entero entonces es error semantico
+                            string val = boolean.Value + " no es un booleano";
+                            Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                        }
+                        else
+                        {
+                            bool cond = bool.Parse(boolean.Value);
+                            do
+                            {
+                                execute(hijos[0]);
+                                cond = bool.Parse(execute(hijos[1]).Value);
+                            } while (cond);
+                        }
+                    }
+                    break;
                 case "SHOW":
                     {
                         Result title = execute(hijos[0]);

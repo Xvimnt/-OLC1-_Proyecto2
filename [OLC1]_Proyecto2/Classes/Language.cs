@@ -83,12 +83,17 @@ namespace _OLC1__Proyecto2.Classes
             var E = new NonTerminal("E");
             var ID = new NonTerminal("ID");
             var ARRAYS = new NonTerminal("ARRAYS");
+            var DOWHILE = new NonTerminal("DOWHILE");
+            var Comprobar = new NonTerminal("Comprobar");
+            var Casos = new NonTerminal("Casos");
+            var Default = new NonTerminal("Default");
+            var Casos2 = new NonTerminal("Casos2");
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",","si","para","repetir","mientras","show");
+            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",","si","para","repetir","mientras","show","hacer");
             this.MarkTransient(BODY, ASSIGN2, DECLARATION2, ARRAY2,ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT,ESINGLE, ASSIGN,ARRAY);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, BODY);
-            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE;
+            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE;
             //Body declaration and functions
             DECLARATION.Rule = DATATYPE + DECLARATION2;
             DECLARATION2.Rule = OBJECT + ";" | ToTerm("arreglo") + ARRAYS + ";";
@@ -96,7 +101,7 @@ namespace _OLC1__Proyecto2.Classes
             ASSIGN.Rule = ToTerm("=") + E | Empty;
             ASSIGNATION.Rule = ID + ASSIGN2 + ";";
             ASSIGN2.Rule = ToTerm("=") + E | "[" + E + "]" + ASSIGN2;
-            PRINT.Rule = ToTerm("imprimir") + "(" + E + ")" + ";";
+            PRINT.Rule = ToTerm("print") + "(" + E + ")" + ";";
             SHOW.Rule = ToTerm("show") + "(" + E + "," + E + ")" + ";";
             IF.Rule = ToTerm("si") + "(" + E + ")" + "{" + START + "}" + ELSE;
             ELSE.Rule = ToTerm("sino") + IF | ToTerm("sino") + "{" + START + "}" | Empty;
@@ -105,6 +110,16 @@ namespace _OLC1__Proyecto2.Classes
             VARMANAGMENT.Rule = DECLARATION | ASSIGNATION;
             UPDATE.Rule = ESINGLE + increase  | ESINGLE + decrease ;
             WHILE.Rule = ToTerm("mientras") + "(" + E + ")" + "{" + START + "}";
+            DOWHILE.Rule = ToTerm("hacer") + "{" + START + "}" + ToTerm("mientras") + "(" + E + ")" + ";";
+            DOWHILE.ErrorRule = SyntaxError + "}";
+            DOWHILE.ErrorRule = SyntaxError + ";";
+            Comprobar.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + Casos + Default + "}";
+            Comprobar.ErrorRule = SyntaxError + "}";
+            Comprobar.ErrorRule = SyntaxError + ";";
+            Casos.Rule = Casos2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
+            Casos2.Rule = Empty | Casos2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
+            Default.Rule = ToTerm("defecto") + ":" + START + ToTerm("salir") + ";" | Empty;
+
             //datatypes 
             DATATYPE.Rule = ToTerm("int") | "bool" | "string" | "double" | "char";
             OBJECT.Rule = OBJECT + "," + ID + ASSIGN | ID + ASSIGN;
@@ -136,6 +151,7 @@ namespace _OLC1__Proyecto2.Classes
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
             ID.Rule = iden + INDEX;
             NATIVE.Rule = integer | caracter | String | boolean | tdouble;
+
 
             this.Root = START;
         }
