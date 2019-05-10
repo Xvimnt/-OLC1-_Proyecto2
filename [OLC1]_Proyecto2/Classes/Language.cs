@@ -57,7 +57,7 @@ namespace _OLC1__Proyecto2.Classes
             var caracter = TerminalFactory.CreateCSharpChar("char");
             var boolean = new RegexBasedTerminal("bool", "(true)|(false)");
             var iden = TerminalFactory.CreateCSharpIdentifier("id");
-            var hexa = new RegexBasedTerminal("hexa", "^(\\#)[0-9A-F]+$"); 
+            var hexa = new RegexBasedTerminal("hexa", "^(\\#)[0-9A-F]+$");
             //Non terminals
             var START = new NonTerminal("START");
             var BODY = new NonTerminal("BODY");
@@ -115,15 +115,19 @@ namespace _OLC1__Proyecto2.Classes
             var GEOMETRICAS = new NonTerminal("GEOMETRICAS");
             var COLOR = new NonTerminal("COLOR");
             var FIGURE = new NonTerminal("FIGURE");
+            var MAIN = new NonTerminal("MAIN");
+            var CLASSIMPLEMENTATION = new NonTerminal("CLASSIMPLEMENTATION");
+
             ////----------------------------------Innecesary nodes
             this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto");
-            this.MarkTransient(FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
+            this.MarkTransient(CLASSIMPLEMENTATION,FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
-            CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + BODYCLASS + "}";
+            CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
+            CLASSIMPLEMENTATION.Rule = MakePlusRule(CLASSIMPLEMENTATION,BODYCLASS);
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
-            BODYCLASS.Rule = LISTFUNCTIONS | LISTVARIABLE;
+            BODYCLASS.Rule = LISTFUNCTIONS | LISTVARIABLE | MAIN;
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
             BODY.Rule = FIGURE| ADDFIGURE| DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
             //methods inside a function
@@ -163,6 +167,7 @@ namespace _OLC1__Proyecto2.Classes
             COLOR.Rule = Empty | E; //it can be a string or id
             FIGURE.Rule = ToTerm("figure") + "(" + E + ")" + ";";
             //Methods inside a class
+            MAIN.Rule = ToTerm("main") + "(" + ")" + "{" + LISTMETHODS + "}";
             LISTVARIABLE.Rule = MakeStarRule(LISTVARIABLE, VISIBILITY + DECLARATION);
             LISTFUNCTIONS.Rule = MakeStarRule(LISTFUNCTIONS, FUNCTION);
             FUNCTION.Rule = VISIBILITY + iden + FUNCTION2 + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
