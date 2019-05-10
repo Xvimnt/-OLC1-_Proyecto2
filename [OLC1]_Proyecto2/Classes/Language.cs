@@ -119,7 +119,7 @@ namespace _OLC1__Proyecto2.Classes
             var CLASSIMPLEMENTATION = new NonTerminal("CLASSIMPLEMENTATION");
 
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto");
+            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase");
             this.MarkTransient(CLASSIMPLEMENTATION,FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
@@ -159,6 +159,7 @@ namespace _OLC1__Proyecto2.Classes
             RETURN.Rule = ToTerm("return") + RETOPTION;
             RETOPTION.Rule = Empty | E;
             CALLFUNC.Rule =  iden + "(" + PARAMLIST + ")" + ";";
+            CALLFUNC.ErrorRule = SyntaxError + ";";
             ADDFIGURE.Rule = ToTerm("addfigure") + "(" + GEOMETRICAS + ")" + ";";
             GEOMETRICAS.Rule = ToTerm("circle") + "(" + COLOR + "," + E + "," + E + "," + E + "," + E + ")"
                                | ToTerm("triangle") + "(" + COLOR + "," + E + "," + E + "," + E + "," + E + "," + E + "," + E + "," + E + ")"
