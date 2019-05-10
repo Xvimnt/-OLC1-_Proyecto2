@@ -88,13 +88,26 @@ namespace _OLC1__Proyecto2.Classes
             var CASE = new NonTerminal("CASE");
             var DEFAULT = new NonTerminal("DEFAULT");
             var CASELIST = new NonTerminal("CASELIST");
+            var FUNCTION = new NonTerminal("FUNCTION");
+            var FUNCTION2 = new NonTerminal("FUNCTION2");
+            var VISIBILITY = new NonTerminal("VISIBILITY");
+            var OVERRIDE = new NonTerminal("OVERRIDE");
+            var PARAMLIST = new NonTerminal("PARAMLIST");
+            var PARAM = new NonTerminal("PARAM");
+            var OPTIONAL = new NonTerminal("OPTIONAL");
+            var RETURN = new NonTerminal("RETURN");
+            var RETOPTION = new NonTerminal("RETOPTION");
+            var LISTMETHODS = new NonTerminal("LISTMETHODS");
+            var LISTFUNCTIONS = new NonTerminal("LISTFUNCTIONS");
+            var LISTVARIABLE = new NonTerminal("LISTVARIABLE");
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",","si","para","repetir","mientras","show","hacer","comprobar","salir","caso",":","print","defecto");
-            this.MarkTransient(BODY, ASSIGN2, DECLARATION2, ARRAY2,ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT,ESINGLE, ASSIGN,ARRAY);
+            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto");
+            this.MarkTransient(FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
             //----------------------------------Grammar
-            START.Rule = MakePlusRule(START, BODY);
-            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH;
-            //Body declaration and functions
+            START.Rule = LISTFUNCTIONS | LISTVARIABLE;
+            LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
+            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty;
+            //methods inside a function
             DECLARATION.Rule = DATATYPE + DECLARATION2;
             DECLARATION2.Rule = OBJECT + ";" | ToTerm("arreglo") + ARRAYS + ";";
             ARRAYS.Rule = ID + ARRAY;
@@ -103,23 +116,34 @@ namespace _OLC1__Proyecto2.Classes
             ASSIGN2.Rule = ToTerm("=") + E | "[" + E + "]" + ASSIGN2;
             PRINT.Rule = ToTerm("print") + "(" + E + ")" + ";";
             SHOW.Rule = ToTerm("show") + "(" + E + "," + E + ")" + ";";
-            IF.Rule = ToTerm("si") + "(" + E + ")" + "{" + START + "}" + ELSE;
-            ELSE.Rule = ToTerm("sino") + IF | ToTerm("sino") + "{" + START + "}" | Empty;
-            FOR.Rule = ToTerm("para") + "(" + VARMANAGMENT + E + ";" + UPDATE + ")" + "{" + START + "}";
-            REPEAT.Rule = ToTerm("repetir") + "(" + E + ")" + "{" + START + "}";
+            IF.Rule = ToTerm("if") + "(" + E + ")" + "{" + LISTMETHODS + "}" + ELSE;
+            ELSE.Rule = ToTerm("else") + IF | ToTerm("else") + "{" + LISTMETHODS + "}" | Empty;
+            FOR.Rule = ToTerm("for") + "(" + VARMANAGMENT + E + ";" + UPDATE + ")" + "{" + LISTMETHODS + "}";
+            REPEAT.Rule = ToTerm("repeat") + "(" + E + ")" + "{" + LISTMETHODS + "}";
             VARMANAGMENT.Rule = DECLARATION | ASSIGNATION;
             UPDATE.Rule = ESINGLE + increase  | ESINGLE + decrease ;
-            WHILE.Rule = ToTerm("mientras") + "(" + E + ")" + "{" + START + "}";
-            DOWHILE.Rule = ToTerm("hacer") + "{" + START + "}" + ToTerm("mientras") + "(" + E + ")" + ";";
+            WHILE.Rule = ToTerm("mientras") + "(" + E + ")" + "{" + LISTMETHODS + "}";
+            DOWHILE.Rule = ToTerm("hacer") + "{" + LISTMETHODS + "}" + ToTerm("mientras") + "(" + E + ")" + ";";
             DOWHILE.ErrorRule = SyntaxError + "}";
             DOWHILE.ErrorRule = SyntaxError + ";";
             SWITCH.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + CASELIST + DEFAULT + "}";
             SWITCH.ErrorRule = SyntaxError + "}";
             SWITCH.ErrorRule = SyntaxError + ";";
             CASELIST.Rule = MakePlusRule(CASELIST, CASE);
-            CASE.Rule = ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
-            DEFAULT.Rule = ToTerm("defecto") + ":" + START + ToTerm("salir") + ";" | Empty;
-
+            CASE.Rule = ToTerm("caso") + E + ":" + LISTMETHODS + ToTerm("salir") + ";";
+            DEFAULT.Rule = ToTerm("defecto") + ":" + LISTMETHODS + ToTerm("salir") + ";" | Empty;
+            OPTIONAL.Rule = RETURN | ToTerm("continue");
+            RETURN.Rule = ToTerm("return") + RETOPTION;
+            RETOPTION.Rule = Empty | E;
+            //Methods inside a class
+            LISTVARIABLE.Rule = MakeStarRule(LISTVARIABLE, VISIBILITY + DECLARATION);
+            LISTFUNCTIONS.Rule = MakeStarRule(LISTFUNCTIONS, FUNCTION);
+            FUNCTION.Rule = VISIBILITY + iden + FUNCTION2 + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
+            FUNCTION2.Rule = DATATYPE + OVERRIDE | ToTerm("arreglo") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
+            VISIBILITY.Rule = Empty | ToTerm("publico") | ToTerm("privado");
+            OVERRIDE.Rule = Empty | ToTerm("override");
+            PARAMLIST.Rule = MakeStarRule(PARAMLIST, ToTerm(","), PARAM);
+            PARAM.Rule = iden + iden | DATATYPE + iden;
             //datatypes 
             DATATYPE.Rule = ToTerm("int") | "bool" | "string" | "double" | "char";
             OBJECT.Rule = OBJECT + "," + ID + ASSIGN | ID + ASSIGN;
@@ -151,8 +175,6 @@ namespace _OLC1__Proyecto2.Classes
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
             ID.Rule = iden + INDEX;
             NATIVE.Rule = integer | caracter | String | boolean | tdouble;
-
-
             this.Root = START;
         }
     }
