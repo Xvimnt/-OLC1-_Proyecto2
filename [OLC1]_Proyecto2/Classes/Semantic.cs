@@ -11,6 +11,7 @@ namespace _OLC1__Proyecto2.Classes
 {
     class Semantic
     {
+        // RAMA DE JAVIER
         private string console = "";
         private string currentType, currentID;
         private Dictionary<string,Var> variables = new Dictionary<string, Var>();
@@ -141,6 +142,28 @@ namespace _OLC1__Proyecto2.Classes
                             execute(defChild[0]);
                         }
                     }
+                    break;
+                case "GEOMETRICAS":
+                    
+                    switch (hijos[0].Token.Value)
+                    {
+                        case "circle":
+                            var tipocolor = execute(hijos[1]);
+                            var tipo2 = execute(hijos[2]);
+                            System.Console.WriteLine("dentro circulo color "+ tipocolor.Value );
+
+                            break;
+                        case "triangle":
+                            break;
+                        case "line":
+                            break;
+                        case "square":
+                            break;
+
+                        
+
+                    }
+                    System.Console.WriteLine("dentro add figure");
                     break;
                 case "UPDATE":
                     {
