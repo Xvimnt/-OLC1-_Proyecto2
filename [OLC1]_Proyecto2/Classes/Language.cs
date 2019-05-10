@@ -117,6 +117,8 @@ namespace _OLC1__Proyecto2.Classes
             var FIGURE = new NonTerminal("FIGURE");
             var MAIN = new NonTerminal("MAIN");
             var CLASSIMPLEMENTATION = new NonTerminal("CLASSIMPLEMENTATION");
+            var CFUNCLIST = new NonTerminal("CFUNCLIST");
+
 
             ////----------------------------------Innecesary nodes
             this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure");
@@ -158,7 +160,8 @@ namespace _OLC1__Proyecto2.Classes
             OPTIONAL.Rule = RETURN | ToTerm("continue");
             RETURN.Rule = ToTerm("return") + RETOPTION;
             RETOPTION.Rule = Empty | E;
-            CALLFUNC.Rule =  iden + "(" + PARAMLIST + ")" + ";";
+            CALLFUNC.Rule =  iden + "(" + CFUNCLIST + ")" + ";";
+            CFUNCLIST.Rule = MakeStarRule(CFUNCLIST, ToTerm(","), E);
             CALLFUNC.ErrorRule = SyntaxError + ";";
             ADDFIGURE.Rule = ToTerm("addfigure") + "(" + GEOMETRICAS + ")" + ";";
             GEOMETRICAS.Rule = ToTerm("circle") + "(" + COLOR + "," + E + "," + E + "," + E + "," + E + ")"
