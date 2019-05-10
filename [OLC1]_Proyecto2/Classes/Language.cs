@@ -12,7 +12,11 @@ namespace _OLC1__Proyecto2.Classes
         public Language()
             : base(false)
         {
-
+            /*------------------JARED COMPROBAR--------------------------
+             * clases con variables globales y metodos
+             * llamadas de funciones (acepta no creadas)
+             * 
+             */
             CommentTerminal LINE_COMMENT = new CommentTerminal("LINE_COMMENT", ">>", "\n", "\r\n");
             CommentTerminal BLOCK_COMMENT = new CommentTerminal("BLOCK_COMMENT", "<-", "->");
             NonGrammarTerminals.Add(BLOCK_COMMENT);
@@ -104,6 +108,7 @@ namespace _OLC1__Proyecto2.Classes
             var CLASS = new NonTerminal("CLASS");
             var EXTENDS = new NonTerminal("EXTENDS");
             var EXTENDSLIST = new NonTerminal("EXTENDSLIST");
+            var CALLFUNC = new NonTerminal("CALLFUNC");
             ////----------------------------------Innecesary nodes
             this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto");
             this.MarkTransient(FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
@@ -114,7 +119,7 @@ namespace _OLC1__Proyecto2.Classes
             EXTENDS.Rule = ToTerm("importar") + ID;
             BODYCLASS.Rule = LISTFUNCTIONS | LISTVARIABLE;
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
-            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty;
+            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
             //methods inside a function
             DECLARATION.Rule = DATATYPE + DECLARATION2;
             DECLARATION2.Rule = OBJECT + ";" | ToTerm("array") + ARRAYS + ";";
@@ -143,7 +148,7 @@ namespace _OLC1__Proyecto2.Classes
             OPTIONAL.Rule = RETURN | ToTerm("continue");
             RETURN.Rule = ToTerm("return") + RETOPTION;
             RETOPTION.Rule = Empty | E;
-
+            CALLFUNC.Rule =  iden + "(" + PARAMLIST + ")" + ";";
             //Methods inside a class
             LISTVARIABLE.Rule = MakeStarRule(LISTVARIABLE, VISIBILITY + DECLARATION);
             LISTFUNCTIONS.Rule = MakeStarRule(LISTFUNCTIONS, FUNCTION);
