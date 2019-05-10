@@ -100,16 +100,24 @@ namespace _OLC1__Proyecto2.Classes
             var LISTMETHODS = new NonTerminal("LISTMETHODS");
             var LISTFUNCTIONS = new NonTerminal("LISTFUNCTIONS");
             var LISTVARIABLE = new NonTerminal("LISTVARIABLE");
+            var BODYCLASS = new NonTerminal("BODYCLASS");
+            var CLASS = new NonTerminal("CLASS");
+            var EXTENDS = new NonTerminal("EXTENDS");
+            var EXTENDSLIST = new NonTerminal("EXTENDSLIST");
             ////----------------------------------Innecesary nodes
             this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto");
             this.MarkTransient(FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
             //----------------------------------Grammar
-            START.Rule = LISTFUNCTIONS | LISTVARIABLE;
+            START.Rule = MakePlusRule(START, BODYCLASS);
+            CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + BODYCLASS + "}";
+            EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
+            EXTENDS.Rule = ToTerm("importar") + ID;
+            BODYCLASS.Rule = LISTFUNCTIONS | LISTVARIABLE;
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
             BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty;
             //methods inside a function
             DECLARATION.Rule = DATATYPE + DECLARATION2;
-            DECLARATION2.Rule = OBJECT + ";" | ToTerm("arreglo") + ARRAYS + ";";
+            DECLARATION2.Rule = OBJECT + ";" | ToTerm("array") + ARRAYS + ";";
             ARRAYS.Rule = ID + ARRAY;
             ASSIGN.Rule = ToTerm("=") + E | Empty;
             ASSIGNATION.Rule = ID + ASSIGN2 + ";";
@@ -135,11 +143,12 @@ namespace _OLC1__Proyecto2.Classes
             OPTIONAL.Rule = RETURN | ToTerm("continue");
             RETURN.Rule = ToTerm("return") + RETOPTION;
             RETOPTION.Rule = Empty | E;
+
             //Methods inside a class
             LISTVARIABLE.Rule = MakeStarRule(LISTVARIABLE, VISIBILITY + DECLARATION);
             LISTFUNCTIONS.Rule = MakeStarRule(LISTFUNCTIONS, FUNCTION);
             FUNCTION.Rule = VISIBILITY + iden + FUNCTION2 + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
-            FUNCTION2.Rule = DATATYPE + OVERRIDE | ToTerm("arreglo") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
+            FUNCTION2.Rule = DATATYPE + OVERRIDE | ToTerm("array") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
             VISIBILITY.Rule = Empty | ToTerm("publico") | ToTerm("privado");
             OVERRIDE.Rule = Empty | ToTerm("override");
             PARAMLIST.Rule = MakeStarRule(PARAMLIST, ToTerm(","), PARAM);
