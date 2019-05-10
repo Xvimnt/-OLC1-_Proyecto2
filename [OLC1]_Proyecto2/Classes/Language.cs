@@ -119,7 +119,7 @@ namespace _OLC1__Proyecto2.Classes
             this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto");
             this.MarkTransient(FUNCTION2, BODY, ASSIGN2, DECLARATION2, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY);
             //----------------------------------Grammar
-            START.Rule = MakePlusRule(START, BODYCLASS);
+            START.Rule = MakePlusRule(START, CLASS);
             CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + BODYCLASS + "}";
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
@@ -197,7 +197,8 @@ namespace _OLC1__Proyecto2.Classes
             | not + E
             | ESINGLE
             | ToTerm("(") + E + ")"
-            | minus + E;
+            | minus + E
+            | CALLFUNC;
             ESINGLE.Rule = NATIVE | ID;
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
             ID.Rule = iden + INDEX;
