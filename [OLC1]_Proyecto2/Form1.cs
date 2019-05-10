@@ -78,7 +78,17 @@ namespace _OLC1__Proyecto2
             }
             else
             {
+                showErrors(tree);
                 Console.WriteLine("salida incorrecta");
+            }
+        }
+
+        private void showErrors(ParseTree tree)
+        {
+            foreach(var error in tree.ParserMessages)
+            {
+                Console.WriteLine("se encontro un error: {0} en la linea: {1} columna: {2}", error.Message, error.Location.Line, error.Location.Column);
+
             }
         }
 

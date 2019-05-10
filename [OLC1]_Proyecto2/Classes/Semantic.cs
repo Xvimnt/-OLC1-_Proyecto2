@@ -95,7 +95,7 @@ namespace _OLC1__Proyecto2.Classes
                     break;
                 case "PRINT":
                     {
-                        Result op1 = execute(hijos[1]);
+                        Result op1 = execute(hijos[0]);
                         Console += op1.Value + "\n";
                     }
                     break;
@@ -118,6 +118,27 @@ namespace _OLC1__Proyecto2.Classes
                         {
                             string val = op1.Value + " no es un booleano";
                             Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                        }
+                    }
+                    break;
+                case "SWITCH":
+                    {
+                        
+                        Result op1 = execute(hijos[0]);
+                        var cases = hijos[1].ChildNodes.ToArray();
+                        foreach(var Case in cases)
+                        {
+                            var caseChild = Case.ChildNodes.ToArray();
+                            if(op1.Value == execute(caseChild[0]).Value)
+                            {
+                                execute(caseChild[1]);
+                                return null;
+                            }
+                        }
+                        var defChild = hijos[2].ChildNodes.ToArray();
+                        if(defChild.Length != 0)
+                        {
+                            execute(defChild[0]);
                         }
                     }
                     break;

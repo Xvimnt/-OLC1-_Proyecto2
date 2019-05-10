@@ -87,13 +87,13 @@ namespace _OLC1__Proyecto2.Classes
             var SWITCH = new NonTerminal("SWITCH");
             var CASE = new NonTerminal("CASE");
             var DEFAULT = new NonTerminal("DEFAULT");
-            var CASE2 = new NonTerminal("CASE2");
+            var CASELIST = new NonTerminal("CASELIST");
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",","si","para","repetir","mientras","show","hacer");
+            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",","si","para","repetir","mientras","show","hacer","comprobar","salir","caso",":","print","defecto");
             this.MarkTransient(BODY, ASSIGN2, DECLARATION2, ARRAY2,ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT,ESINGLE, ASSIGN,ARRAY);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, BODY);
-            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE;
+            BODY.Rule = DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH;
             //Body declaration and functions
             DECLARATION.Rule = DATATYPE + DECLARATION2;
             DECLARATION2.Rule = OBJECT + ";" | ToTerm("arreglo") + ARRAYS + ";";
@@ -113,11 +113,11 @@ namespace _OLC1__Proyecto2.Classes
             DOWHILE.Rule = ToTerm("hacer") + "{" + START + "}" + ToTerm("mientras") + "(" + E + ")" + ";";
             DOWHILE.ErrorRule = SyntaxError + "}";
             DOWHILE.ErrorRule = SyntaxError + ";";
-            SWITCH.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + CASE + DEFAULT + "}";
+            SWITCH.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + CASELIST + DEFAULT + "}";
             SWITCH.ErrorRule = SyntaxError + "}";
             SWITCH.ErrorRule = SyntaxError + ";";
-            CASE.Rule = CASE2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
-            CASE2.Rule = Empty | CASE2 + ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
+            CASELIST.Rule = MakePlusRule(CASELIST, CASE);
+            CASE.Rule = ToTerm("caso") + E + ":" + START + ToTerm("salir") + ";";
             DEFAULT.Rule = ToTerm("defecto") + ":" + START + ToTerm("salir") + ";" | Empty;
 
             //datatypes 
