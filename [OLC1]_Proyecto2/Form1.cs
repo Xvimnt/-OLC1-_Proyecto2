@@ -28,11 +28,13 @@ namespace _OLC1__Proyecto2
             DataColumn c1 = new DataColumn("Nombre");
             DataColumn c0 = new DataColumn("Valor");
             DataColumn c2 = new DataColumn("Tipo");
+            DataColumn c3 = new DataColumn("Visibilidad");
 
             //Add the Created Columns to the Datatable
             data.Columns.Add(c0);
             data.Columns.Add(c1);
             data.Columns.Add(c2);
+            data.Columns.Add(c3);
             foreach (KeyValuePair<string, Var> entry in variables)
             {
                 Var aVariable = entry.Value;
@@ -40,12 +42,14 @@ namespace _OLC1__Proyecto2
                 row["Nombre"] = entry.Key;
                 row["Valor"] = aVariable.Value;
                 row["Tipo"] = aVariable.Type;
+                row["Visibilidad"] = aVariable.Visibility;
                 data.Rows.Add(row);
             }
             tbVar.DataSource = data;
             tbVar.Columns["Nombre"].Width = 200;
             tbVar.Columns["Valor"].Width = 200;
             tbVar.Columns["Tipo"].Width = 200;
+            tbVar.Columns["Visibilidad"].Width = 150;
         }
 
         public void Analize()
@@ -59,8 +63,9 @@ namespace _OLC1__Proyecto2
                 Semantic semanticA = new Semantic();
                 this.root = tree.Root;
                 semanticA.execute(tree.Root);
-                if(semanticA.Errores.Count == 0)
+                if (semanticA.Errores.Count == 0)
                 {
+                    semanticA.Thread();
                     if (semanticA.Variables.Count != 0)
                     {
                         fillData(semanticA.Variables);

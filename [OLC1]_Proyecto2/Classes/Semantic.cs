@@ -11,9 +11,9 @@ namespace _OLC1__Proyecto2.Classes
 {
     class Semantic
     {
-        // RAMA DE JAVIER
         private string console = "";
-        private string currentType, currentID;
+        private string main;
+        private string currentType, currentID, currentClass = "",currentVisibility;
         private Dictionary<string,Var> variables = new Dictionary<string, Var>();
         private List<error> errores = new List<error>();
         private List<string> shows = new List<string>();
@@ -51,16 +51,17 @@ namespace _OLC1__Proyecto2.Classes
 
         private void addVariable(Result variable)
         {
-            if (!Variables.ContainsKey(currentID))
+            string varName = currentClass + "/" + currentID;
+            if (!Variables.ContainsKey(varName))
             {
                 if (comprobeTypes(variable))
                 {
-                    Variables.Add(currentID, new Var(variable.Value, currentType));
+                    Variables.Add(varName, new Var(variable.Value, currentType,currentVisibility));
                 }
             }
             else
             {
-                var current = variables[currentID];
+                var current = variables[varName];
                 currentType = current.Type;
                 if (comprobeTypes(variable))
                 {
@@ -70,6 +71,13 @@ namespace _OLC1__Proyecto2.Classes
             }
             
         }
+
+        public void Thread()
+        {
+            if(this.main != null)
+            System.Console.WriteLine("se va a ejecutar el metodo main {0}", this.main);
+        }
+
 
         public Result execute(ParseTreeNode node_)
         {
@@ -82,6 +90,50 @@ namespace _OLC1__Proyecto2.Classes
             response.Column = node_.Span.Location.Column;
             switch (node_.Term.Name)
             {
+                case "CLASS":
+                    if(hijos.Length > 3)
+                    {
+                        //has implementation
+                        //has visiblity
+                        var visibilityc = hijos[0].ChildNodes.ToArray();
+                        if(visibilityc.Length == 0)
+                        {
+                            System.Console.WriteLine("no tiene visibilidad");
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("si tiene visibilidad {0}" , visibilityc[0].Token.Value.ToString().ToLower());
+                        }
+                        //has extends
+                        var extends = hijos[2].ChildNodes.ToArray();
+                        if (extends.Length == 0)
+                        {
+                            System.Console.WriteLine("no tiene inheritance");
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("si tiene inheritance ");
+                        }
+                        this.currentClass = hijos[1].Token.Value.ToString();
+                        execute(hijos[3]);
+                    }
+                    break;
+                case "MAIN":
+                    this.main = this.currentClass + "/main";
+                    //guardar la funcion main
+                    break;
+                case "LISTVARIABLE":
+                    var visibility = hijos[0].ChildNodes;
+                    if (visibility.Count != 0)
+                    {
+                        this.currentVisibility = visibility[0].Token.ValueString.ToLower();
+                    }
+                    else this.currentVisibility = "publico";
+                    execute(hijos[1]);
+                    break;
+                case "LISTFUNCTIONS":
+                    System.Console.WriteLine("TENGO QUE EMPEZAR A COMPILAR LA CLASE CON FUNCIONES");
+                    break;
                 case "DECLARATION":
                     {
                         //To obtain the Type of the iden
@@ -248,7 +300,7 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 break;
                         }
-                        variables[childrens[0].Token.ValueString] = new Var(response.Value,response.Type);
+                        variables[childrens[0].Token.ValueString] = new Var(response.Value,response.Type,currentVisibility);
                     }
                     break;
                 case "OBJECT":
