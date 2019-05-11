@@ -121,12 +121,12 @@ namespace _OLC1__Proyecto2.Classes
 
 
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure");
+            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main");
             this.MarkTransient(CLASSIMPLEMENTATION,FUNCTION2, BODY, ASSIGN2, DECLARATION2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
             CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
-            CLASSIMPLEMENTATION.Rule = MakePlusRule(CLASSIMPLEMENTATION,BODYCLASS);
+            CLASSIMPLEMENTATION.Rule = MakeStarRule(CLASSIMPLEMENTATION,BODYCLASS);
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
             BODYCLASS.Rule = LISTFUNCTIONS | LISTVARIABLE | MAIN;
@@ -172,8 +172,8 @@ namespace _OLC1__Proyecto2.Classes
             FIGURE.Rule = ToTerm("figure") + "(" + E + ")" + ";";
             //Methods inside a class
             MAIN.Rule = ToTerm("main") + "(" + ")" + "{" + LISTMETHODS + "}";
-            LISTVARIABLE.Rule = MakeStarRule(LISTVARIABLE, VISIBILITY + DECLARATION);
-            LISTFUNCTIONS.Rule = MakeStarRule(LISTFUNCTIONS, FUNCTION);
+            LISTVARIABLE.Rule = MakePlusRule(LISTVARIABLE, VISIBILITY + DECLARATION);
+            LISTFUNCTIONS.Rule = MakePlusRule(LISTFUNCTIONS, FUNCTION);
             FUNCTION.Rule = VISIBILITY + iden + FUNCTION2 + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
             FUNCTION2.Rule = DATATYPE + OVERRIDE | ToTerm("array") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
             VISIBILITY.Rule = Empty | ToTerm("publico") | ToTerm("privado");

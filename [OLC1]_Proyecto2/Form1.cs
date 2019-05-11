@@ -53,6 +53,7 @@ namespace _OLC1__Proyecto2
             Parser p = new Parser(new LanguageData(new Language()));
             ParseTree tree = p.Parse(txtInput.Text);
 
+            
             if (tree.Root != null) {
                 
                 Semantic semanticA = new Semantic();
