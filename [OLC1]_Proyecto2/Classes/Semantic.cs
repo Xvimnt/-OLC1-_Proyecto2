@@ -523,6 +523,7 @@ namespace _OLC1__Proyecto2.Classes
                                         }
                                     }
                                     var iden = variables[id];
+
                                     switch (currentType)
                                     {
                                         case "int":
@@ -553,6 +554,7 @@ namespace _OLC1__Proyecto2.Classes
                                             {
                                                 switch (iden.Type)
                                                 {
+                                                    
                                                     case "double":
                                                         {
 
@@ -563,9 +565,16 @@ namespace _OLC1__Proyecto2.Classes
                                                         break;
                                                     default:
                                                         {
-
-                                                            string val = currentType + " != " + iden.Type;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            if (iden.Value == "0")
+                                                            {
+                                                                response.Value = iden.Value;
+                                                                response.Type = iden.Type;
+                                                            }
+                                                            else
+                                                            {
+                                                                string val = currentType + " != " + iden.Type;
+                                                                Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            }
                                                         }
                                                         break;
                                                 }
@@ -685,8 +694,16 @@ namespace _OLC1__Proyecto2.Classes
                                                     default:
                                                         {
 
-                                                            string val = currentType + " != " + hijos[0].Term.Name;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            if (hijos[0].Token.ValueString == "0")
+                                                            {
+                                                                response.Type = hijos[0].Term.Name;
+                                                                response.Value = hijos[0].Token.ValueString;
+                                                            }
+                                                            else
+                                                            {
+                                                                string val = currentType + " != " + hijos[0].Term.Name;
+                                                                Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            }
                                                         }
                                                         break;
                                                 }
@@ -714,6 +731,7 @@ namespace _OLC1__Proyecto2.Classes
                                                 }
                                             }
                                             break;
+                                            
                                         case "char":
                                             {
                                                 switch (hijos[0].Term.Name)
