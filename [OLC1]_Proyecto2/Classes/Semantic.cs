@@ -143,7 +143,7 @@ namespace _OLC1__Proyecto2.Classes
                         this.currentVisibility = visibility[0].Token.ValueString.ToLower();
                     }
                     else this.currentVisibility = "publico";
-
+                    //adding the function to our sym table
                     variables.Add(this.currentClass + "/" + hijos[1].Token.ValueString, new Var("funcion", hijos[2].Token.ValueString, currentVisibility,node_));
 
                     break;
