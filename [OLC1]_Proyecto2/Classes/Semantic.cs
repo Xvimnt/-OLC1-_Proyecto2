@@ -517,20 +517,251 @@ namespace _OLC1__Proyecto2.Classes
                                     if (!string.IsNullOrWhiteSpace(dims.Value))
                                     {
                                         var data = dims.Value.Split(',');
-                                        foreach(var element in data)
+                                        foreach (var element in data)
                                         {
                                             id += "[" + element + "]";
                                         }
                                     }
                                     var iden = variables[id];
-                                    response.Value = iden.Value;
-                                    response.Type = iden.Type;
+                                    switch (currentType)
+                                    {
+                                        case "int":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "int":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+
+                                        case "double":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "double":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "string":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "string":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "char":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "char":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "bool":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "bool":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+
+                                    }
                                 }
-                       
+
                                 else
                                 {
-                                    response.Type = hijos[0].Term.Name;
-                                    response.Value = hijos[0].Token.ValueString;
+                                    switch (currentType)
+                                    {
+                                        case "int":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "int":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+
+                                        case "double":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "double":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "string":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "string":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "char":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "char":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "bool":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "bool":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+
+                                    }
+
                                 }
                                 break;
                             case 2:
