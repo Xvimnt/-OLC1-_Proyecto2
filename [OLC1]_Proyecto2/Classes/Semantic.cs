@@ -445,12 +445,46 @@ namespace _OLC1__Proyecto2.Classes
                         }
                     }
                     break;
+                case "PARAM":
+                    response.Value = hijos[1].Token.ValueString;
+                    response.Type = hijos[0].ChildNodes[0].Token.ValueString;
+                    break;
                 case "CALLFUNC":
                     var name = this.currentClass + "/" + hijos[0].Token.ValueString;
                     if (variables.ContainsKey(name))
                     {
+                        //obtaining the function in the sym table
                         var function = variables[name];
+                        //to view if the function has parameters
+                        var paramlist = function.Instructions.ChildNodes[3];
+                        //to save the name of the current class
+                        var temp = this.currentClass;
+                        this.currentClass = name;
+                        //to obtain the param in the call function
+                        int flag = 0;
+                        //loop throught the params in the function declaration
+                        foreach (var param in paramlist.ChildNodes)
+                        {
+                            //obtain the type and the name of the param
+                            Result parametro = execute(param);
+                            //obtain the calls in order
+                            var calls = hijos[1].ChildNodes;
+                            //comprobe if the calls has any childs
+                            if(calls.Count != 0)
+                            {
+                                //obtain the item for the function call
+                                var item = execute(calls[flag]);
+                                //add the item to our sym table before execute the method
+                                variables.Add(this.currentClass + "/" + parametro.Value, new Var(item.Value, item.Type, "protected"));
+                            }
+                            else{
+                                string val = "La llamada a la funcion " + hijos[0].Token.ValueString + " no contiene parametros";
+                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                            }
+                            flag++;
+                        }
                         execute(function.Instructions.ChildNodes[4]);
+                        this.currentClass = temp;
                     }
                     break;
                 case "DOWHILE":
@@ -595,7 +629,7 @@ namespace _OLC1__Proyecto2.Classes
                                             id += "[" + element + "]";
                                         }
                                     }
-                                    var iden = variables[id];
+                                    var iden = variables[currentClass + "/" +  id];
                                     response.Value = iden.Value;
                                     response.Type = iden.Type;
                                 }
