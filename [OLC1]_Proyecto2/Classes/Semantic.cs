@@ -74,8 +74,13 @@ namespace _OLC1__Proyecto2.Classes
 
         public void Thread()
         {
+            //execute the last main method encountered
             if(this.main != null)
-            System.Console.WriteLine("se va a ejecutar el metodo main {0}", this.main);
+            {
+                var thread = variables[this.main].Instructions;
+                execute(thread);
+            }
+             
         }
 
 
@@ -120,7 +125,7 @@ namespace _OLC1__Proyecto2.Classes
                     break;
                 case "MAIN":
                     this.main = this.currentClass + "/main";
-                    //guardar la funcion main
+                    variables.Add(this.main,new Var("funcion","main","publico",hijos[0]));
                     break;
                 case "LISTVARIABLE":
                     var visibility = hijos[0].ChildNodes;
@@ -131,8 +136,16 @@ namespace _OLC1__Proyecto2.Classes
                     else this.currentVisibility = "publico";
                     execute(hijos[1]);
                     break;
-                case "LISTFUNCTIONS":
-                    System.Console.WriteLine("TENGO QUE EMPEZAR A COMPILAR LA CLASE CON FUNCIONES");
+                case "FUNCTION":
+                    visibility = hijos[0].ChildNodes;
+                    if (visibility.Count != 0)
+                    {
+                        this.currentVisibility = visibility[0].Token.ValueString.ToLower();
+                    }
+                    else this.currentVisibility = "publico";
+
+                    variables.Add(this.currentClass + "/" + hijos[1].Token.ValueString, new Var("funcion", hijos[2].Token.ValueString, currentVisibility,node_));
+
                     break;
                 case "DECLARATION":
                     {
@@ -430,6 +443,14 @@ namespace _OLC1__Proyecto2.Classes
                                 cond = bool.Parse(execute(hijos[0]).Value);
                             }
                         }
+                    }
+                    break;
+                case "CALLFUNC":
+                    var name = this.currentClass + "/" + hijos[0].Token.ValueString;
+                    if (variables.ContainsKey(name))
+                    {
+                        var function = variables[name];
+                        execute(function.Instructions.ChildNodes[4]);
                     }
                     break;
                 case "DOWHILE":
