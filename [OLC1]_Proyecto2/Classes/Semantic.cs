@@ -682,6 +682,21 @@ namespace _OLC1__Proyecto2.Classes
                                 {
                                     response = execute(hijos[0]);
                                 }
+                                else if (hijos[0].Term.Name == "CFUNCLIST")
+                                {
+                                    //is a new object
+                                    if (variables.ContainsKey(currentType))
+                                    {
+                                        //the class exists
+                                        response.Type = currentType;
+                                        response.Value = "object";
+                                    }
+                                    else
+                                    {
+                                        string val = "clase no existente: " + currentType;
+                                        Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                    }
+                                }
                                 else if (hijos[0].Term.Name == "ID")
                                 {
                                     var childrens = hijos[0].ChildNodes;

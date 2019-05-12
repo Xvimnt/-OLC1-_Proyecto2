@@ -180,7 +180,7 @@ namespace _OLC1__Proyecto2.Classes
             PARAMLIST.Rule = MakeStarRule(PARAMLIST, ToTerm(","), PARAM);
             PARAM.Rule = iden + iden | DATATYPE + iden;
             //datatypes 
-            DATATYPE.Rule = ToTerm("int") | "bool" | "string" | "double" | "char";
+            DATATYPE.Rule = ToTerm("int") | "bool" | "string" | "double" | "char" | iden;
             OBJECT.Rule = ID + ASSIGN;
             //Making arrays
             ARRAY.Rule = "=" + ARRAYASIGN | Empty;
@@ -207,7 +207,7 @@ namespace _OLC1__Proyecto2.Classes
             | ToTerm("(") + E + ")"
             | minus + E;
             
-            ESINGLE.Rule = NATIVE | ID;
+            ESINGLE.Rule = NATIVE | ID | ToTerm("new") + iden + "(" + CFUNCLIST + ")";
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
             ID.Rule = iden + IDPLUS;
             IDPLUS.Rule = INDEX | Empty | "(" + CFUNCLIST + ")" + ";" | "." + ID;
