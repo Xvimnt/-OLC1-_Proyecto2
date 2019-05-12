@@ -72,35 +72,37 @@ namespace _OLC1__Proyecto2.Classes
             //to save the name of the current class
             var temp = this.currentClass;
             this.currentClass = name;
-            //to obtain the param in the call function
-            int flag = 0;
-            //loop throught the params in the function declaration
-            foreach (var param in paramlist.ChildNodes)
+            //obtain the parameters in the call
+            //there are two cases, when is called with an assignation and just called
+            ParseTreeNodeList calls;
+            if (callfunc.ChildNodes[1].Term.Name == "IDPLUS")
             {
-                //obtain the type and the name of the param
-                Result parametro = execute(param);
-                //obtain the calls in order
-                ParseTreeNodeList calls;
-                if(callfunc.ChildNodes[1].Term.Name == "IDPLUS")
+                calls = callfunc.ChildNodes[1].ChildNodes[0].ChildNodes;
+            }
+            else calls = callfunc.ChildNodes[1].ChildNodes;
+            //if has any params
+            if(calls.Count == paramlist.ChildNodes.Count)
+            {
+                //to obtain the param in the call function
+                int flag = 0;
+                //loop throught the params in the function declaration
+                foreach (var param in paramlist.ChildNodes)
                 {
-                    calls = callfunc.ChildNodes[1].ChildNodes[0].ChildNodes;
-                }
-                else calls = callfunc.ChildNodes[1].ChildNodes;
-                //comprobe if the calls has any childs
-                if (calls.Count != 0)
-                {
+                    //obtain the type and the name of the param
+                    Result parametro = execute(param);
                     //obtain the item for the function call
                     var item = execute(calls[flag]);
                     //add the item to our sym table before execute the method
                     variables.Add(this.currentClass + "/" + parametro.Value, new Var(item.Value, item.Type, "protected"));
+                    flag++;
                 }
-                else
-                {
-                    string val = "La llamada a la funcion " + callfunc.ChildNodes[0].Token.ValueString + " no contiene parametros";
-                    Errores.Add(new error(val, "Error semantico", "operacion invalida", callfunc.Span.Location.Line, callfunc.Span.Location.Line));
-                }
-                flag++;
             }
+            else
+            {
+                string val = "La llamada a la funcion " + callfunc.ChildNodes[0].Token.ValueString + " no recibe los parametros correctos";
+                Errores.Add(new error(val, "Error semantico", "operacion invalida", callfunc.Span.Location.Line, callfunc.Span.Location.Line));
+            }
+
             //executing all the function instructions
             execute(function.Instructions.ChildNodes[3]);
             //in case a return is encountered
@@ -122,16 +124,11 @@ namespace _OLC1__Proyecto2.Classes
             switch (node_.Term.Name)
             {
                 case "CLASS":
-                    if(hijos.Length > 3)
+                    if(hijos.Length > 2)
                     {
                         //has implementation
-                        //has visiblity
-                        var visibilityc = hijos[0].ChildNodes.ToArray();
-                        if(visibilityc.Length == 0) currentVisibility = "publico";
-                        else currentVisibility = visibilityc[0].Token.ValueString;
-                        
                         //has extends
-                        var extends = hijos[2].ChildNodes.ToArray();
+                        var extends = hijos[1].ChildNodes.ToArray();
                         if (extends.Length == 0)
                         {
                             System.Console.WriteLine("no tiene inheritance");
@@ -140,9 +137,9 @@ namespace _OLC1__Proyecto2.Classes
                         {
                             System.Console.WriteLine("si tiene inheritance ");
                         }
-                        this.currentClass = hijos[1].Token.Value.ToString();
-                        variables.Add(this.currentClass, new Var("clase", "clase", currentVisibility,null,response.Line,response.Column));
-                        execute(hijos[3]);
+                        this.currentClass = hijos[0].Token.Value.ToString();
+                        variables.Add(this.currentClass, new Var("clase", "clase", "publico",null,response.Line,response.Column));
+                        execute(hijos[2]);
                     }
                     break;
                 case "MAIN":

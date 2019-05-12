@@ -71,18 +71,13 @@ namespace _OLC1__Proyecto2
             Update();
             Parser p = new Parser(new LanguageData(new Language()));
             ParseTree tree = p.Parse(obtenerentrada().Text);
-
-            
             if (tree.Root != null) {
-                
                 Semantic semanticA = new Semantic();
                 this.root = tree.Root;
                 semanticA.execute(tree.Root);
                 CurrentNode = tree;
-                
                 if (semanticA.Errores.Count == 0)
                 {
-                    
                     semanticA.Thread();
                     if (semanticA.Variables.Count != 0)
                     {
@@ -91,7 +86,6 @@ namespace _OLC1__Proyecto2
                     }
                     AddImages(semanticA.getListaLista());
                     txtConsole.Text = semanticA.Console;
-                    
                 }
                 else
                 {
@@ -104,7 +98,6 @@ namespace _OLC1__Proyecto2
             }
             else
             {
-
                 BadEntrance = true;
                 CurrentNode = tree;
                 showErrors(tree);

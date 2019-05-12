@@ -124,7 +124,7 @@ namespace _OLC1__Proyecto2.Classes
             this.MarkTransient(DECLARATION2,LISTCLASSMETHODS2, CLASSIMPLEMENTATION, BODY, ASSIGN2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE,RETOPTION);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
-            CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
+            CLASS.Rule = "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
             CLASSIMPLEMENTATION.Rule = MakeStarRule(CLASSIMPLEMENTATION, LISTCLASSMETHODS);
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
