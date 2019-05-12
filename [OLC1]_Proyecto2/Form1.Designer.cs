@@ -41,27 +41,27 @@
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aSTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tbInput = new System.Windows.Forms.TabPage();
-            this.txtInput = new System.Windows.Forms.RichTextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tbPage = new System.Windows.Forms.TabPage();
             this.txtConsole = new System.Windows.Forms.RichTextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tbVar = new System.Windows.Forms.DataGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tbVar = new System.Windows.Forms.DataGridView();
+            this.tbInput = new System.Windows.Forms.TabPage();
+            this.txtInput = new System.Windows.Forms.RichTextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tbInput.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tbPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbVar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
+            this.tbInput.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -92,34 +92,35 @@
             // crearToolStripMenuItem
             // 
             this.crearToolStripMenuItem.Name = "crearToolStripMenuItem";
-            this.crearToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.crearToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.crearToolStripMenuItem.Text = "Crear";
+            this.crearToolStripMenuItem.Click += new System.EventHandler(this.crearToolStripMenuItem_Click);
             // 
             // abrirToolStripMenuItem
             // 
             this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.abrirToolStripMenuItem.Text = "Abrir";
             this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
             // 
             // guardarToolStripMenuItem
             // 
             this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.guardarToolStripMenuItem.Text = "Guardar";
             this.guardarToolStripMenuItem.Click += new System.EventHandler(this.guardarToolStripMenuItem_Click);
             // 
             // guardarComoToolStripMenuItem
             // 
             this.guardarComoToolStripMenuItem.Name = "guardarComoToolStripMenuItem";
-            this.guardarComoToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.guardarComoToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.guardarComoToolStripMenuItem.Text = "Guardar Como";
             this.guardarComoToolStripMenuItem.Click += new System.EventHandler(this.guardarComoToolStripMenuItem_Click);
             // 
             // cerrarPestañaToolStripMenuItem
             // 
             this.cerrarPestañaToolStripMenuItem.Name = "cerrarPestañaToolStripMenuItem";
-            this.cerrarPestañaToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.cerrarPestañaToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.cerrarPestañaToolStripMenuItem.Text = "Cerrar Pestaña";
             // 
             // herramientasToolStripMenuItem
@@ -133,7 +134,7 @@
             // compilarToolStripMenuItem
             // 
             this.compilarToolStripMenuItem.Name = "compilarToolStripMenuItem";
-            this.compilarToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
+            this.compilarToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
             this.compilarToolStripMenuItem.Text = "Compilar";
             this.compilarToolStripMenuItem.Click += new System.EventHandler(this.compilarToolStripMenuItem_Click);
             // 
@@ -141,7 +142,8 @@
             // 
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.erroresToolStripMenuItem,
-            this.aSTToolStripMenuItem});
+            this.aSTToolStripMenuItem,
+            this.tokensToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.reportesToolStripMenuItem.Text = "Reportes";
@@ -149,54 +151,16 @@
             // erroresToolStripMenuItem
             // 
             this.erroresToolStripMenuItem.Name = "erroresToolStripMenuItem";
-            this.erroresToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
+            this.erroresToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.erroresToolStripMenuItem.Text = "Errores";
+            this.erroresToolStripMenuItem.Click += new System.EventHandler(this.erroresToolStripMenuItem_Click);
             // 
             // aSTToolStripMenuItem
             // 
             this.aSTToolStripMenuItem.Name = "aSTToolStripMenuItem";
-            this.aSTToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
+            this.aSTToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
             this.aSTToolStripMenuItem.Text = "AST";
             this.aSTToolStripMenuItem.Click += new System.EventHandler(this.aSTToolStripMenuItem_Click);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tbInput);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 31);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(924, 401);
-            this.tabControl1.TabIndex = 1;
-            // 
-            // tbInput
-            // 
-            this.tbInput.Controls.Add(this.txtInput);
-            this.tbInput.Location = new System.Drawing.Point(4, 25);
-            this.tbInput.Name = "tbInput";
-            this.tbInput.Padding = new System.Windows.Forms.Padding(3);
-            this.tbInput.Size = new System.Drawing.Size(916, 372);
-            this.tbInput.TabIndex = 0;
-            this.tbInput.Text = "Entrada";
-            this.tbInput.UseVisualStyleBackColor = true;
-            // 
-            // txtInput
-            // 
-            this.txtInput.Location = new System.Drawing.Point(0, 0);
-            this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(916, 372);
-            this.txtInput.TabIndex = 0;
-            this.txtInput.Text = "";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(916, 372);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
@@ -227,21 +191,6 @@
             this.txtConsole.TabIndex = 0;
             this.txtConsole.Text = "";
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // fileSystemWatcher1
-            // 
-            this.fileSystemWatcher1.EnableRaisingEvents = true;
-            this.fileSystemWatcher1.SynchronizingObject = this;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(19, 19);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.tbVar);
@@ -264,6 +213,57 @@
             this.tbVar.Size = new System.Drawing.Size(908, 179);
             this.tbVar.TabIndex = 0;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // fileSystemWatcher1
+            // 
+            this.fileSystemWatcher1.EnableRaisingEvents = true;
+            this.fileSystemWatcher1.SynchronizingObject = this;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(19, 19);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbInput
+            // 
+            this.tbInput.Controls.Add(this.txtInput);
+            this.tbInput.Location = new System.Drawing.Point(4, 25);
+            this.tbInput.Name = "tbInput";
+            this.tbInput.Padding = new System.Windows.Forms.Padding(3);
+            this.tbInput.Size = new System.Drawing.Size(916, 372);
+            this.tbInput.TabIndex = 0;
+            this.tbInput.Text = "Entrada";
+            this.tbInput.UseVisualStyleBackColor = true;
+            // 
+            // txtInput
+            // 
+            this.txtInput.Location = new System.Drawing.Point(0, 0);
+            this.txtInput.Name = "txtInput";
+            this.txtInput.Size = new System.Drawing.Size(916, 372);
+            this.txtInput.TabIndex = 0;
+            this.txtInput.Text = "";
+            this.txtInput.TextChanged += new System.EventHandler(this.txtInput_TextChanged);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tbInput);
+            this.tabControl1.Location = new System.Drawing.Point(12, 31);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(924, 401);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // tokensToolStripMenuItem
+            // 
+            this.tokensToolStripMenuItem.Name = "tokensToolStripMenuItem";
+            this.tokensToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.tokensToolStripMenuItem.Text = "Tokens";
+            this.tokensToolStripMenuItem.Click += new System.EventHandler(this.tokensToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -277,13 +277,13 @@
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tbInput.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tbPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tbVar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
+            this.tbInput.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,19 +303,19 @@
         private System.Windows.Forms.ToolStripMenuItem reportesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem erroresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aSTToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.TabPage tbInput;
-        private System.Windows.Forms.RichTextBox txtInput;
         private System.Windows.Forms.TabPage tbPage;
         private System.Windows.Forms.RichTextBox txtConsole;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView tbVar;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tbInput;
+        private System.Windows.Forms.RichTextBox txtInput;
+        private System.Windows.Forms.ToolStripMenuItem tokensToolStripMenuItem;
     }
 }
 
