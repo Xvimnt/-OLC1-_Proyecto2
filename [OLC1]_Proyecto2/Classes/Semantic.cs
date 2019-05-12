@@ -197,7 +197,8 @@ namespace _OLC1__Proyecto2.Classes
                     {
                         //To obtain the Type of the iden
                         execute(hijos[0]);
-                        Result Obj = execute(hijos[1]);
+                        //to save the variables
+                        execute(hijos[1]);
                     }
                     break;
                 case "DATATYPE":
@@ -378,20 +379,15 @@ namespace _OLC1__Proyecto2.Classes
                                 execute(hijos[0]);
                                 addVariable(execute(hijos[1]));
                                 break;
-                            case 3:
-                                //multi line declaration
-                                //to save the id in a global variable
-                                execute(hijos[1]);
-                                addVariable(execute(hijos[2]));
-                                execute(hijos[0]);
-                                break;
                         }
                     }
+                    break;
+                case "IDPLUS":
+                    response = execute(hijos[0]);
                     break;
                 case "ID":
                     //to save the current variable
                     currentID = hijos[0].Token.ValueString;
-
                     //in case is an array
                     response = execute(hijos[1]);
                     break;

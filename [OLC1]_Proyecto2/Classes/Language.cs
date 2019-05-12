@@ -87,6 +87,7 @@ namespace _OLC1__Proyecto2.Classes
             var ESINGLE = new NonTerminal("ESINGLE");
             var E = new NonTerminal("E");
             var ID = new NonTerminal("ID");
+            var IDPLUS = new NonTerminal("IDPLUS");
             var ARRAYS = new NonTerminal("ARRAYS");
             var DOWHILE = new NonTerminal("DOWHILE");
             var SWITCH = new NonTerminal("SWITCH");
@@ -116,10 +117,11 @@ namespace _OLC1__Proyecto2.Classes
             var CFUNCLIST = new NonTerminal("CFUNCLIST");
             var LISTCLASSMETHODS = new NonTerminal("LISTCLASSMETHODS");
             var LISTCLASSMETHODS2 = new NonTerminal("LISTCLASSMETHODS2");
+            var LISTOBJECTS = new NonTerminal("LISTCLASSMETHODS2");
 
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main","return");
-            this.MarkTransient(LISTCLASSMETHODS2,CLASSIMPLEMENTATION, BODY, ASSIGN2, DECLARATION2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE,RETOPTION);
+            this.MarkPunctuation(".","(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main","return");
+            this.MarkTransient(DECLARATION2,LISTCLASSMETHODS2, CLASSIMPLEMENTATION, BODY, ASSIGN2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE,RETOPTION);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
             CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
@@ -129,8 +131,9 @@ namespace _OLC1__Proyecto2.Classes
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
             BODY.Rule = FIGURE| ADDFIGURE| DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
             //methods inside a function
-            DECLARATION.Rule = DATATYPE + DECLARATION2;
-            DECLARATION2.Rule = OBJECT + ";" | ToTerm("array") + ARRAYS + ";";
+            DECLARATION.Rule = DATATYPE + DECLARATION2 + ";";
+            DECLARATION2.Rule = LISTOBJECTS | ToTerm("array") + ARRAYS;
+            LISTOBJECTS.Rule = MakePlusRule(LISTOBJECTS,ToTerm(",") ,OBJECT);
             ARRAYS.Rule = ID + ARRAY;
             ASSIGN.Rule = ToTerm("=") + E | Empty;
             ASSIGNATION.Rule = ID + ASSIGN2 + ";";
@@ -178,7 +181,7 @@ namespace _OLC1__Proyecto2.Classes
             PARAM.Rule = iden + iden | DATATYPE + iden;
             //datatypes 
             DATATYPE.Rule = ToTerm("int") | "bool" | "string" | "double" | "char";
-            OBJECT.Rule = OBJECT + "," + ID + ASSIGN | ID + ASSIGN;
+            OBJECT.Rule = ID + ASSIGN;
             //Making arrays
             ARRAY.Rule = "=" + ARRAYASIGN | Empty;
             ARRAYASIGN.Rule = ToTerm("{") + ARRAYASIGN2 + "}";
@@ -202,11 +205,12 @@ namespace _OLC1__Proyecto2.Classes
             | not + E
             | ESINGLE
             | ToTerm("(") + E + ")"
-            | minus + E
-            | CALLFUNC;
+            | minus + E;
+            
             ESINGLE.Rule = NATIVE | ID;
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
-            ID.Rule = iden + INDEX;
+            ID.Rule = iden + IDPLUS;
+            IDPLUS.Rule = INDEX | Empty | "(" + CFUNCLIST + ")" + ";" | "." + ID;
             NATIVE.Rule = integer | caracter | String | boolean | tdouble;
             this.Root = START;
         }
