@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace _OLC1__Proyecto2.Classes
 {
-    class Figure
+    class Figuras
     {
-        String tipofigura = ""; 
+        String tipofigura = "";
         String color = "";
         int pt1 = 0;
         int pt2 = 0;
@@ -18,8 +18,7 @@ namespace _OLC1__Proyecto2.Classes
         int pt6 = 0;
         int thickness = 0;
         String Solid = "";
-
-        public Figure(String tipo, String color, int p1, int p2, int p3, int p4, int p5, int p6, int grosor, String s)
+        public Figuras(String tipo, String color, int p1, int p2, int p3, int p4, int p5, int p6, int grosor, String s)
         {
             this.Tipofigura = tipo;
             this.Color = color;
@@ -44,6 +43,7 @@ namespace _OLC1__Proyecto2.Classes
         public int Pt4 { get => pt4; set => pt4 = value; }
         public int Pt5 { get => pt5; set => pt5 = value; }
         public int Pt6 { get => pt6; set => pt6 = value; }
-        public int Thickness { get => thickness; set => thickness = value; }
+        public int Thickness { get => thickness; set => thickness = value;
+        }
     }
 }

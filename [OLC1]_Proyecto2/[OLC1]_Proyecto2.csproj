@@ -37,6 +37,7 @@
     <Reference Include="Irony, Version=1.1.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\packages\Irony.1.1.0\lib\net40\Irony.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\error.cs" />
-    <Compile Include="Classes\Figure.cs" />
+    <Compile Include="Classes\Figuras.cs" />
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\Plotter.cs" />
     <Compile Include="Classes\Result.cs" />
