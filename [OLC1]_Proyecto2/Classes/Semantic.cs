@@ -20,10 +20,18 @@ namespace _OLC1__Proyecto2.Classes
         private List<error> errores = new List<error>();
         private List<string> shows = new List<string>();
 
+        public List<Figuras> listafiguras = new List<Figuras>();
+        public List<List<Figuras>> ListadeLista = new List<List<Figuras>>();
+
         public string Console { get => console; set => console = value; }
         internal Dictionary<string, Var> Variables { get => variables; set => variables = value; }
         internal List<error> Errores { get => errores; set => errores = value; }
         public List<string> Shows { get => shows; set => shows = value; }
+
+        public List<List<Figuras>> getListaLista() // metodo que llamo desde el semantico para obtener las figuras
+        {
+            return ListadeLista;
+        }
 
         private bool comprobeTypes(Result response)
         {
@@ -256,27 +264,77 @@ namespace _OLC1__Proyecto2.Classes
                         }
                     }
                     break;
-                case "GEOMETRICAS":
-                    
-                    switch (hijos[0].Token.Value)
+                case "FIGURE":
                     {
-                        case "circle":
-                            var tipocolor = execute(hijos[1]);
-                            var tipo2 = execute(hijos[2]);
-                            System.Console.WriteLine("dentro circulo color "+ tipocolor.Value );
+                        //System.Console.WriteLine(execute(hijos[1]).Value);
+                        ListadeLista.Add(new List<Figuras>(listafiguras));
+                        listafiguras.Clear();
 
-                            break;
-                        case "triangle":
-                            break;
-                        case "line":
-                            break;
-                        case "square":
-                            break;
-
-                        
 
                     }
-                    System.Console.WriteLine("dentro add figure");
+                    break;
+
+                case "GEOMETRICAS":
+                    {
+                        
+                        switch (hijos[0].Token.Value)
+                        {
+                            case "circle":
+                                {
+
+                                    String tipo = hijos[0].Token.Value.ToString();
+                                    String Color = execute(hijos[1]).Value; System.Console.WriteLine("Color" + Color);
+                                    String radio = execute(hijos[2]).Value;
+                                    String solido = execute(hijos[3]).Value;
+                                    String posx = execute(hijos[4]).Value;
+                                    String posy = execute(hijos[5]).Value;
+                                    System.Console.WriteLine("dentro conclicto"+tipo + "- " + Color +"end");
+                                   listafiguras.Add(new Figuras(tipo, Color, int.Parse(posx), int.Parse(posy), int.Parse(radio), int.Parse(radio), 0, 0, 1, solido));
+                                    // LISTO
+                                }
+                                break;
+                            case "triangle":
+                                {
+                                    String tipo2 = hijos[0].Token.Value.ToString();
+                                    String Color2 = execute(hijos[1]).Value;
+                                    String solido2 = execute(hijos[2]).Value;
+                                    String pt1x = execute(hijos[3]).Value;
+                                    String pt1y = execute(hijos[4]).Value;
+                                    String pt2x = execute(hijos[5]).Value;
+                                    String pt2y = execute(hijos[6]).Value;
+                                    String pt3x = execute(hijos[7]).Value;
+                                    String pt3y = execute(hijos[8]).Value;
+                                    listafiguras.Add(new Figuras(tipo2, Color2, int.Parse(pt1x), int.Parse(pt1y), int.Parse(pt2x), int.Parse(pt2y), int.Parse(pt3x), int.Parse(pt3y), 2, solido2));
+                                }
+                                break;
+                            case "line":
+                                {
+                                    System.Console.WriteLine("dentr liena");
+                                    String tipo3 = hijos[0].Token.Value.ToString();
+                                    String Color3 = execute(hijos[1]).Value;
+                                    String inix1 = execute(hijos[2]).Value;
+                                    String iniy1 = execute(hijos[3]).Value;
+                                    String finx = execute(hijos[4]).Value;
+                                    String finy = execute(hijos[5]).Value;
+                                    String grosor = execute(hijos[6]).Value;
+                                    listafiguras.Add(new Figuras(tipo3, Color3, int.Parse(inix1), int.Parse(iniy1), int.Parse(finx), int.Parse(finy), 0, 0, int.Parse(grosor), "false"));
+                                }
+                                break;
+                            case "square":
+                                {
+                                    String tipo4 = hijos[0].Token.Value.ToString();
+                                    String Color4 = execute(hijos[1]).Value;
+                                    String solido4 = execute(hijos[2]).Value;
+                                    String xi = execute(hijos[3]).Value;
+                                    String yi = execute(hijos[4]).Value;
+                                    String w = execute(hijos[5]).Value;
+                                    String h = execute(hijos[6]).Value;
+                                    listafiguras.Add(new Figuras(tipo4, Color4, int.Parse(xi), int.Parse(yi), int.Parse(w), int.Parse(h), 0, 0, 2, solido4));
+                                }
+                                break;
+                        }
+                    }
+                    break;
                     break;
                 case "UPDATE":
                     {
@@ -663,7 +721,7 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 else if(hijos[0].Term.Name == "ID")
                                 {
-                                    var childrens = hijos[0].ChildNodes.ToArray();
+                                    var childrens = hijos[0].ChildNodes;
                                     var id = childrens[0].Token.ValueString;
                                     //to calculate the index
                                     var dims = execute(childrens[1]);
@@ -792,6 +850,8 @@ namespace _OLC1__Proyecto2.Classes
 
                                 else
                                 {
+                                    response.Type = hijos[0].Term.Name;
+                                    response.Value = hijos[0].Token.ValueString;
                                     switch (currentType)
                                     {
                                         case "int":
