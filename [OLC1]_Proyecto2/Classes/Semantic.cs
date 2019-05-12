@@ -105,24 +105,154 @@ namespace _OLC1__Proyecto2.Classes
                 case "RETURN":
                     var func = variables[this.currentClass];
                     var functionType = func.Type;
-                    if(hijos.Length != 0)
+                    if (hijos.Length != 0)
                     {
+
                         var itemReturn = execute(hijos[0]);
-                        // se tiene que comprobar los tipos de retornos en las funciones con itemReturn.Type y funcitionType
-                        if (true)
+                        switch (functionType)
                         {
-                            //assigning the return to the function
-                            func.Value = itemReturn.Value;
+                            case "int":
+                                {
+
+                                    switch (itemReturn.Type)
+                                    {
+                                        case "int":
+                                            {
+
+                                                response.Type = itemReturn.Type;
+                                                currentType = functionType;
+                                                func.Value = itemReturn.Value;
+                                            }
+                                            break;
+
+                                        default:
+                                            {
+
+                                                string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
+
+                            case "double":
+                                {
+                                    switch (itemReturn.Type)
+                                    {
+                                        case "int":
+                                            {
+                                                MessageBox.Show("hola");
+                                                response.Type = itemReturn.Type;
+                                                currentType = functionType;
+                                                func.Value = itemReturn.Value;
+                                            }
+                                            break;
+                                        case "double":
+                                            {
+                                                response.Type = itemReturn.Type;
+                                                currentType = functionType;
+                                                func.Value = itemReturn.Value;
+                                            }
+                                            break;
+                                        default:
+                                            {
+                                                string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
+
+                            case "string":
+                                {
+                                    switch (itemReturn.Type)
+                                    {
+                                        case "string":
+                                            {
+
+                                                response.Type = itemReturn.Type;
+                                                currentType = functionType;
+                                                func.Value = itemReturn.Value;
+                                            }
+                                            break;
+
+                                        default:
+                                            {
+                                                string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
+
+                            case "char":
+                                {
+                                    switch (itemReturn.Type)
+                                    {
+                                        case "char":
+                                            {
+
+                                                response.Type = itemReturn.Type;
+                                                currentType = functionType;
+                                                func.Value = itemReturn.Value;
+                                            }
+                                            break;
+
+                                        default:
+                                            {
+                                                string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "bool":
+                                {
+                                    switch (itemReturn.Type)
+                                    {
+                                        case "bool":
+                                            {
+
+                                                response.Type = itemReturn.Type;
+                                                currentType = functionType;
+                                                func.Value = itemReturn.Value;
+                                            }
+                                            break;
+
+                                        default:
+                                            {
+                                                string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
                         }
-                        else
-                        {
-                            var val = "El metodo tiene que retornar una variable tipo " + functionType;
-                            Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
-                        }
+
+                        /*
+                         response.Type = itemReturn.Type;
+                         currentType = functionType;
+                         if (comprobeTypes(response))
+                         {
+                             //assigning the return to the function
+                             func.Value = itemReturn.Value;
+                         }
+                         else
+                         {
+                             string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                             Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                         }
+                         */
                     }
+
                     else
                     {
-                        if(functionType == "void")
+                        if (functionType == "void")
                         {
                             retorno = true;
                         }
@@ -808,18 +938,18 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                 }
                                                                 break;
+                                                            case "int":
+                                                                {
+                                                                    response.Value = iden.Value;
+                                                                    response.Type = iden.Type;
+                                                                }
+                                                                break;
                                                             default:
                                                                 {
-                                                                    if (iden.Value == "0")
-                                                                    {
-                                                                        response.Value = iden.Value;
-                                                                        response.Type = iden.Type;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        string val = currentType + " != " + iden.Type;
-                                                                        Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                                    }
+
+                                                                    string val = currentType + " != " + iden.Type;
+                                                                    Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+
                                                                 }
                                                                 break;
                                                         }
@@ -923,19 +1053,18 @@ namespace _OLC1__Proyecto2.Classes
 
                                                         }
                                                         break;
+                                                    case "int":
+                                                        {
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+                                                        }
+                                                        break;
                                                     default:
                                                         {
 
-                                                            if (hijos[0].Token.ValueString == "0")
-                                                            {
-                                                                response.Type = hijos[0].Term.Name;
-                                                                response.Value = hijos[0].Token.ValueString;
-                                                            }
-                                                            else
-                                                            {
-                                                                string val = currentType + " != " + hijos[0].Term.Name;
-                                                                Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                            }
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+
                                                         }
                                                         break;
                                                 }
