@@ -32,12 +32,16 @@ namespace _OLC1__Proyecto2
         private void fillData(Dictionary<string,Var> variables)
         {
             DataTable data = new DataTable("variables");
+            DataColumn c4 = new DataColumn("Fila");
+            DataColumn c5 = new DataColumn("Columna");
             DataColumn c1 = new DataColumn("Nombre");
             DataColumn c0 = new DataColumn("Valor");
             DataColumn c2 = new DataColumn("Tipo");
             DataColumn c3 = new DataColumn("Visibilidad");
 
             //Add the Created Columns to the Datatable
+            data.Columns.Add(c4);
+            data.Columns.Add(c5);
             data.Columns.Add(c0);
             data.Columns.Add(c1);
             data.Columns.Add(c2);
@@ -46,6 +50,8 @@ namespace _OLC1__Proyecto2
             {
                 Var aVariable = entry.Value;
                 DataRow row = data.NewRow();
+                row["Fila"] = entry.Value.Row;
+                row["Columna"] = entry.Value.Column;
                 row["Nombre"] = entry.Key;
                 row["Valor"] = aVariable.Value;
                 row["Tipo"] = aVariable.Type;
@@ -55,7 +61,7 @@ namespace _OLC1__Proyecto2
             tbVar.DataSource = data;
             tbVar.Columns["Nombre"].Width = 200;
             tbVar.Columns["Valor"].Width = 200;
-            tbVar.Columns["Tipo"].Width = 200;
+            tbVar.Columns["Tipo"].Width = 150;
             tbVar.Columns["Visibilidad"].Width = 150;
         }
 

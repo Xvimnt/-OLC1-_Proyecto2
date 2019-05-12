@@ -39,7 +39,7 @@ namespace _OLC1__Proyecto2.Classes
             string varName = currentClass + "/" + currentID;
             if (!Variables.ContainsKey(varName))
             {
-                Variables.Add(varName, new Var(variable.Value, currentType,currentVisibility));   
+                Variables.Add(varName, new Var(variable.Value, currentType,currentVisibility,null,variable.Line,variable.Column));   
             }
             else
             {
@@ -94,13 +94,13 @@ namespace _OLC1__Proyecto2.Classes
                             System.Console.WriteLine("si tiene inheritance ");
                         }
                         this.currentClass = hijos[1].Token.Value.ToString();
-                        variables.Add(this.currentClass, new Var("clase", "clase", currentVisibility));
+                        variables.Add(this.currentClass, new Var("clase", "clase", currentVisibility,null,response.Line,response.Column));
                         execute(hijos[3]);
                     }
                     break;
                 case "MAIN":
                     this.main = this.currentClass + "/main";
-                    variables.Add(this.main,new Var("funcion","main","publico",hijos[0]));
+                    variables.Add(this.main,new Var("funcion","main","publico",hijos[0],response.Line,response.Column));
                     break;
                 case "RETURN":
                     var func = variables[this.currentClass];
@@ -116,7 +116,7 @@ namespace _OLC1__Proyecto2.Classes
                         }
                         else
                         {
-                            string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                            var val = "El metodo tiene que retornar una variable tipo " + functionType;
                             Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                         }
                     }
@@ -140,15 +140,15 @@ namespace _OLC1__Proyecto2.Classes
                     {
                         case 1:
                             //adding the function to our sym table
-                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].Token.ValueString, currentVisibility, node_));
+                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].Token.ValueString, currentVisibility, node_,response.Line,response.Column));
                             break;
                         case 2:
                             //adding the function to our sym table
-                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].ChildNodes[0].Token.ValueString, currentVisibility, node_));
+                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].ChildNodes[0].Token.ValueString, currentVisibility, node_, response.Line, response.Column));
                             break;
                         case 4:
                             //adding the function to our sym table
-                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[1].ChildNodes[0].Token.ValueString, currentVisibility, node_));
+                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[1].ChildNodes[0].Token.ValueString, currentVisibility, node_, response.Line, response.Column));
                             break;
                     }
                     break;
@@ -690,6 +690,25 @@ namespace _OLC1__Proyecto2.Classes
                                         //the class exists
                                         response.Type = currentType;
                                         response.Value = "object";
+                                        //copy all the functions and variables to that object
+                                        Dictionary<string, Var> stack = new Dictionary<string, Var>();
+                                        foreach (KeyValuePair<string, Var> entry in variables)
+                                        {
+                                            if (entry.Key.StartsWith(currentType))
+                                            {
+                                                var data = entry.Key.Split('/');
+                                                if(data.Length > 1)
+                                                {
+                                                    stack.Add(currentClass + "/" + currentID + "/" + data[1],
+                                                new Var(entry.Value.Value, entry.Value.Type, entry.Value.Visibility, entry.Value.Instructions));
+
+                                                }
+                                            }
+                                        }
+                                        foreach(KeyValuePair<string, Var> entry in stack)
+                                        {
+                                            variables.Add(entry.Key,entry.Value);
+                                        }
                                     }
                                     else
                                     {
@@ -711,6 +730,11 @@ namespace _OLC1__Proyecto2.Classes
                                         {
                                             execute(iden.Instructions);
                                         }
+                                    }
+                                    //if the first id is an object
+                                    else if (variables.ContainsKey(currentClass + "/" + id))
+                                    {
+                                        System.Console.WriteLine("Es un objeto en el contexto");
                                     }
                                     else
                                     {
