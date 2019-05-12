@@ -298,7 +298,6 @@ namespace _OLC1__Proyecto2.Classes
                         }
                     }
                     break;
-                    break;
                 case "UPDATE":
                     {
                         var childrens = hijos[0].ChildNodes.ToArray();
@@ -734,128 +733,152 @@ namespace _OLC1__Proyecto2.Classes
                                     //if the first id is an object
                                     else if (variables.ContainsKey(currentClass + "/" + id))
                                     {
-                                        System.Console.WriteLine("Es un objeto en el contexto");
-                                    }
-                                    else
-                                    {
-                                        //to calculate the index
-                                        var dims = execute(childrens[1]);
-                                        if (!string.IsNullOrWhiteSpace(dims.Value))
+                                        //obtain the class of the object
+                                        var classObject = variables[currentClass + "/" + id];
+                                        //if the class of the object Exists
+                                        if (variables.ContainsKey(classObject.Type))
                                         {
-                                            var data = dims.Value.Split(',');
-                                            foreach (var element in data)
+                                            //make a copy of currentId to restore later
+                                            var temp = currentID;
+                                            //to save the variable or function in currenId global variable
+                                            Result path = execute(hijos[0].ChildNodes[1]);
+                                            if (variables.ContainsKey(currentClass + "/" + id + "/" + currentID + path.Value))
                                             {
-                                                id += "[" + element + "]";
+                                                var resVariable = variables[currentClass + "/" + id + "/" + currentID + path.Value];
+                                                response.Value = resVariable.Value;
+                                                response.Type = resVariable.Type;
+                                            }
+                                            else
+                                            {
+                                                System.Console.WriteLine("{0} no se encuentra ", currentClass + "/" + id + "/" + currentID + path.Value);
+                                            }
+                                            //Restore the currentID
+                                            currentID = temp;
+                                        }
+                                        else
+                                        {
+                                            //to calculate the index
+                                            var dims = execute(childrens[1]);
+                                            if (!string.IsNullOrWhiteSpace(dims.Value))
+                                            {
+                                                var data = dims.Value.Split(',');
+                                                foreach (var element in data)
+                                                {
+                                                    id += "[" + element + "]";
+                                                }
+                                            }
+                                            //obtaining the variable
+                                            System.Console.WriteLine("se esta buscando {0}", currentClass + "/" + id);
+                                            iden = variables[currentClass + "/" + id];
+                                            response.Value = iden.Value;
+                                            response.Type = iden.Type;
+                                            //comprobe types
+                                            switch (currentType)
+                                            {
+                                                case "int":
+                                                    {
+                                                        switch (iden.Type)
+                                                        {
+                                                            case "int":
+                                                                {
+                                                                    response.Value = iden.Value;
+                                                                    response.Type = iden.Type;
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+
+                                                                    string val = currentType + " != " + iden.Type;
+                                                                    Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "double":
+                                                    {
+                                                        switch (iden.Type)
+                                                        {
+
+                                                            case "double":
+                                                                {
+
+                                                                    response.Value = iden.Value;
+                                                                    response.Type = iden.Type;
+
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+                                                                    if (iden.Value == "0")
+                                                                    {
+                                                                        response.Value = iden.Value;
+                                                                        response.Type = iden.Type;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        string val = currentType + " != " + iden.Type;
+                                                                        Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                                    }
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "string":
+                                                    {
+                                                        switch (iden.Type)
+                                                        {
+                                                            case "string":
+                                                                {
+
+                                                                    response.Value = iden.Value;
+                                                                    response.Type = iden.Type;
+
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+
+                                                                    string val = currentType + " != " + iden.Type;
+                                                                    Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "char":
+                                                    {
+                                                        switch (iden.Type)
+                                                        {
+                                                            case "char":
+                                                                {
+
+                                                                    response.Value = iden.Value;
+                                                                    response.Type = iden.Type;
+
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+
+                                                                    string val = currentType + " != " + iden.Type;
+                                                                    Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "bool":
+                                                    {
+
+                                                        response.Value = iden.Value;
+                                                        response.Type = iden.Type;
+
+                                                    }
+                                                    break;
                                             }
                                         }
-                                        //obtaining the variable
-                                        iden = variables[currentClass + "/" + id];
-                                    }
-                                    //comprobe types
-                                    switch (currentType)
-                                    {
-                                        case "int":
-                                            {
-                                                switch (iden.Type)
-                                                {
-                                                    case "int":
-                                                        {
-                                                            response.Value = iden.Value;
-                                                            response.Type = iden.Type;
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-
-                                                            string val = currentType + " != " + iden.Type;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-                                        case "double":
-                                            {
-                                                switch (iden.Type)
-                                                {
-
-                                                    case "double":
-                                                        {
-
-                                                            response.Value = iden.Value;
-                                                            response.Type = iden.Type;
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-                                                            if (iden.Value == "0")
-                                                            {
-                                                                response.Value = iden.Value;
-                                                                response.Type = iden.Type;
-                                                            }
-                                                            else
-                                                            {
-                                                                string val = currentType + " != " + iden.Type;
-                                                                Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                            }
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-                                        case "string":
-                                            {
-                                                switch (iden.Type)
-                                                {
-                                                    case "string":
-                                                        {
-
-                                                            response.Value = iden.Value;
-                                                            response.Type = iden.Type;
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-
-                                                            string val = currentType + " != " + iden.Type;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-                                        case "char":
-                                            {
-                                                switch (iden.Type)
-                                                {
-                                                    case "char":
-                                                        {
-
-                                                            response.Value = iden.Value;
-                                                            response.Type = iden.Type;
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-
-                                                            string val = currentType + " != " + iden.Type;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-                                        case "bool":
-                                            {
-
-                                                response.Value = iden.Value;
-                                                response.Type = iden.Type;
-
-                                            }
-                                            break;
                                     }
                                 }
                                 else

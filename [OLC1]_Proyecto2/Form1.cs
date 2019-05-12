@@ -80,7 +80,6 @@ namespace _OLC1__Proyecto2
                 semanticA.execute(tree.Root);
                 CurrentNode = tree;
                 
-
                 if (semanticA.Errores.Count == 0)
                 {
                     
