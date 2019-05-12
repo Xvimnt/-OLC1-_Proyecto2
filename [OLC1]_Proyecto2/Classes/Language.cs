@@ -125,31 +125,66 @@ namespace _OLC1__Proyecto2.Classes
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
             CLASS.Rule = "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
+
+            CLASS.ErrorRule = SyntaxError + "}";
+            CLASS.ErrorRule = SyntaxError + ";";
+
             CLASSIMPLEMENTATION.Rule = MakeStarRule(CLASSIMPLEMENTATION, LISTCLASSMETHODS);
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
-            BODY.Rule = FIGURE| ADDFIGURE| DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
+            BODY.Rule = FIGURE | ADDFIGURE | DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
             //methods inside a function
             DECLARATION.Rule = DATATYPE + DECLARATION2 + ";";
+
+            DECLARATION.ErrorRule = SyntaxError + ";";
+
             DECLARATION2.Rule = LISTOBJECTS | ToTerm("array") + ARRAYS;
-            LISTOBJECTS.Rule = MakePlusRule(LISTOBJECTS,ToTerm(",") ,OBJECT);
+            LISTOBJECTS.Rule = MakePlusRule(LISTOBJECTS, ToTerm(","), OBJECT);
             ARRAYS.Rule = ID + ARRAY;
             ASSIGN.Rule = ToTerm("=") + E | Empty;
             ASSIGNATION.Rule = ID + ASSIGN2 + ";";
+
+            ASSIGNATION.ErrorRule = SyntaxError + ";";
+
+
             ASSIGN2.Rule = ToTerm("=") + E | "[" + E + "]" + ASSIGN2;
             PRINT.Rule = ToTerm("print") + "(" + E + ")" + ";";
+
+            PRINT.ErrorRule = SyntaxError + ";";
+
             SHOW.Rule = ToTerm("show") + "(" + E + "," + E + ")" + ";";
+
+            SHOW.ErrorRule = SyntaxError + ";";
+
             IF.Rule = ToTerm("if") + "(" + E + ")" + "{" + LISTMETHODS + "}" + ELSE;
+
+            IF.ErrorRule = SyntaxError + "}";
+            IF.ErrorRule = SyntaxError + ";";
+
             ELSE.Rule = ToTerm("else") + IF | ToTerm("else") + "{" + LISTMETHODS + "}" | Empty;
             FOR.Rule = ToTerm("for") + "(" + VARMANAGMENT + E + ";" + UPDATE + ")" + "{" + LISTMETHODS + "}";
+
+            FOR.ErrorRule = SyntaxError + "}";
+            FOR.ErrorRule = SyntaxError + ";";
+
             REPEAT.Rule = ToTerm("repeat") + "(" + E + ")" + "{" + LISTMETHODS + "}";
+
+            REPEAT.ErrorRule = SyntaxError + "}";
+            REPEAT.ErrorRule = SyntaxError + ";";
+
             VARMANAGMENT.Rule = DECLARATION | ASSIGNATION;
-            UPDATE.Rule = ESINGLE + increase  | ESINGLE + decrease ;
+            UPDATE.Rule = ESINGLE + increase | ESINGLE + decrease;
             WHILE.Rule = ToTerm("mientras") + "(" + E + ")" + "{" + LISTMETHODS + "}";
+
+            WHILE.ErrorRule = SyntaxError + "}";
+            WHILE.ErrorRule = SyntaxError + ";";
+
             DOWHILE.Rule = ToTerm("hacer") + "{" + LISTMETHODS + "}" + ToTerm("mientras") + "(" + E + ")" + ";";
+
             DOWHILE.ErrorRule = SyntaxError + "}";
             DOWHILE.ErrorRule = SyntaxError + ";";
+
             SWITCH.Rule = ToTerm("comprobar") + "(" + E + ")" + "{" + CASELIST + DEFAULT + "}";
             SWITCH.ErrorRule = SyntaxError + "}";
             SWITCH.ErrorRule = SyntaxError + ";";
@@ -159,7 +194,7 @@ namespace _OLC1__Proyecto2.Classes
             OPTIONAL.Rule = RETURN | ToTerm("continue");
             RETURN.Rule = ToTerm("return") + RETOPTION;
             RETOPTION.Rule = Empty | E;
-            CALLFUNC.Rule =  iden + "(" + CFUNCLIST + ")" + ";";
+            CALLFUNC.Rule = iden + "(" + CFUNCLIST + ")" + ";";
             CFUNCLIST.Rule = MakeStarRule(CFUNCLIST, ToTerm(","), E);
             CALLFUNC.ErrorRule = SyntaxError + ";";
             ADDFIGURE.Rule = ToTerm("addfigure") + "(" + GEOMETRICAS + ")" + ";";
@@ -167,6 +202,8 @@ namespace _OLC1__Proyecto2.Classes
                                | ToTerm("triangle") + "(" + COLOR + "," + E + "," + E + "," + E + "," + E + "," + E + "," + E + "," + E + ")"
                                | ToTerm("square") + "(" + COLOR + "," + E + "," + E + "," + E + "," + E + "," + E + ")"
                                | ToTerm("line") + "(" + COLOR + "," + E + "," + E + "," + E + "," + E + "," + E + ")";
+            GEOMETRICAS.ErrorRule = SyntaxError + ";";
+
             COLOR.Rule = Empty | E; //it can be a string or id
             FIGURE.Rule = ToTerm("figure") + "(" + E + ")" + ";";
             //Methods inside a class
@@ -174,6 +211,11 @@ namespace _OLC1__Proyecto2.Classes
             LISTCLASSMETHODS2.Rule = DECLARATION | FUNCTION;
             MAIN.Rule = ToTerm("main") + "(" + ")" + "{" + LISTMETHODS + "}";
             FUNCTION.Rule = iden + FUNCTIONARGS + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
+
+            FUNCTION.ErrorRule = SyntaxError + "}";
+            FUNCTION.ErrorRule = SyntaxError + ";";
+
+
             FUNCTIONARGS.Rule = DATATYPE + OVERRIDE | ToTerm("array") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
             VISIBILITY.Rule = Empty | ToTerm("publico") | ToTerm("privado");
             OVERRIDE.Rule = Empty | ToTerm("override");
@@ -186,8 +228,8 @@ namespace _OLC1__Proyecto2.Classes
             ARRAY.Rule = "=" + ARRAYASIGN | Empty;
             ARRAYASIGN.Rule = ToTerm("{") + ARRAYASIGN2 + "}";
             ARRAYASIGN2.Rule = ARRAYASIGN3 | ARRAYLIST;
-            ARRAYASIGN3.Rule = ARRAYASIGN | MakePlusRule(ARRAYASIGN3,ToTerm(","), ARRAYASIGN);
-            ARRAYLIST.Rule = MakePlusRule(ARRAYLIST,ToTerm(","),E);
+            ARRAYASIGN3.Rule = ARRAYASIGN | MakePlusRule(ARRAYASIGN3, ToTerm(","), ARRAYASIGN);
+            ARRAYLIST.Rule = MakePlusRule(ARRAYLIST, ToTerm(","), E);
             //Making EXP
             E.Rule = E + plus + E
             | E + minus + E
@@ -206,7 +248,7 @@ namespace _OLC1__Proyecto2.Classes
             | ESINGLE
             | ToTerm("(") + E + ")"
             | minus + E;
-            
+
             ESINGLE.Rule = NATIVE | ID | ToTerm("new") + iden + "(" + CFUNCLIST + ")";
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
             ID.Rule = iden + IDPLUS;
