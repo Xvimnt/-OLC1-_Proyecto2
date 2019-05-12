@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _OLC1__Proyecto2.Classes
 {
@@ -1688,7 +1689,6 @@ namespace _OLC1__Proyecto2.Classes
                                                                     break;
                                                             }
                                                         }
-
                                                     }
                                                     break;
                                                 default:
