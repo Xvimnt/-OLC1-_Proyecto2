@@ -475,7 +475,7 @@ namespace _OLC1__Proyecto2.Classes
                 case "UPDATE":
                     {
                         var childrens = hijos[0].ChildNodes.ToArray();
-                        var op1 = variables[childrens[0].Token.ValueString];
+                        var op1 = variables[currentClass + "/" +  childrens[0].Token.ValueString];
                         string operador = hijos[1].Token.ValueString;
                         switch (operador)
                         {
@@ -555,7 +555,7 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 break;
                         }
-                        variables[childrens[0].Token.ValueString] = new Var(response.Value,response.Type,currentVisibility);
+                        variables[currentClass + "/" + childrens[0].Token.ValueString] = new Var(response.Value,response.Type,currentVisibility);
                     }
                     break;
                 case "OBJECT":
@@ -858,11 +858,12 @@ namespace _OLC1__Proyecto2.Classes
                                 else if (hijos[0].Term.Name == "ID")
                                 {
                                     var childrens = hijos[0].ChildNodes;
-                                    var id = childrens[0].Token.ValueString;
+                                    var id =  childrens[0].Token.ValueString;
                                     Var iden = new Var();
                                     //if the first id is a class 
                                     if (variables.ContainsKey(id))
                                     {
+                                        System.Console.WriteLine("Se obtiene ? {0}",id);
                                         var secondName = hijos[0].ChildNodes[1].ChildNodes[0].ChildNodes[0].Token.ValueString;
                                         iden = variables[id + "/" + secondName];
                                         if(iden.Instructions != null)
