@@ -61,6 +61,53 @@ namespace _OLC1__Proyecto2.Classes
              
         }
 
+        private void ExecuteFunction(ParseTreeNode callfunc)
+        {
+            //obtainig the name of the function
+            var name = this.currentClass + "/" + callfunc.ChildNodes[0].Token.ValueString;
+            //obtaining the function in the sym table
+            var function = variables[name];
+            //to view if the function has parameters
+            var paramlist = function.Instructions.ChildNodes[2];
+            //to save the name of the current class
+            var temp = this.currentClass;
+            this.currentClass = name;
+            //to obtain the param in the call function
+            int flag = 0;
+            //loop throught the params in the function declaration
+            foreach (var param in paramlist.ChildNodes)
+            {
+                //obtain the type and the name of the param
+                Result parametro = execute(param);
+                //obtain the calls in order
+                ParseTreeNodeList calls;
+                if(callfunc.ChildNodes[1].Term.Name == "IDPLUS")
+                {
+                    calls = callfunc.ChildNodes[1].ChildNodes[0].ChildNodes;
+                }
+                else calls = callfunc.ChildNodes[1].ChildNodes;
+                //comprobe if the calls has any childs
+                if (calls.Count != 0)
+                {
+                    //obtain the item for the function call
+                    var item = execute(calls[flag]);
+                    //add the item to our sym table before execute the method
+                    variables.Add(this.currentClass + "/" + parametro.Value, new Var(item.Value, item.Type, "protected"));
+                }
+                else
+                {
+                    string val = "La llamada a la funcion " + callfunc.ChildNodes[0].Token.ValueString + " no contiene parametros";
+                    Errores.Add(new error(val, "Error semantico", "operacion invalida", callfunc.Span.Location.Line, callfunc.Span.Location.Line));
+                }
+                flag++;
+            }
+            //executing all the function instructions
+            execute(function.Instructions.ChildNodes[3]);
+            //in case a return is encountered
+            retorno = false;
+            this.currentClass = temp;
+        }
+
 
         public Result execute(ParseTreeNode node_)
         {
@@ -516,41 +563,7 @@ namespace _OLC1__Proyecto2.Classes
                     var name = this.currentClass + "/" + hijos[0].Token.ValueString;
                     if (variables.ContainsKey(name))
                     {
-                        //obtaining the function in the sym table
-                        var function = variables[name];
-                        //to view if the function has parameters
-                        var paramlist = function.Instructions.ChildNodes[2];
-                        //to save the name of the current class
-                        var temp = this.currentClass;
-                        this.currentClass = name;
-                        //to obtain the param in the call function
-                        int flag = 0;
-                        //loop throught the params in the function declaration
-                        foreach (var param in paramlist.ChildNodes)
-                        {
-                            //obtain the type and the name of the param
-                            Result parametro = execute(param);
-                            //obtain the calls in order
-                            var calls = hijos[1].ChildNodes;
-                            //comprobe if the calls has any childs
-                            if(calls.Count != 0)
-                            {
-                                //obtain the item for the function call
-                                var item = execute(calls[flag]);
-                                //add the item to our sym table before execute the method
-                                variables.Add(this.currentClass + "/" + parametro.Value, new Var(item.Value, item.Type, "protected"));
-                            }
-                            else{
-                                string val = "La llamada a la funcion " + hijos[0].Token.ValueString + " no contiene parametros";
-                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
-                            }
-                            flag++;
-                        }
-                        //executing all the function instructions
-                        execute(function.Instructions.ChildNodes[3]);
-                        //in case a return is encountered
-                        retorno = false;
-                        this.currentClass = temp;
+                        ExecuteFunction(node_);
                     }
                     break;
                 case "DOWHILE":
@@ -730,7 +743,7 @@ namespace _OLC1__Proyecto2.Classes
                                             execute(iden.Instructions);
                                         }
                                     }
-                                    //if the first id is an object
+                                    //if the first id is an object or function
                                     else if (variables.ContainsKey(currentClass + "/" + id))
                                     {
                                         //obtain the class of the object
@@ -757,18 +770,25 @@ namespace _OLC1__Proyecto2.Classes
                                         }
                                         else
                                         {
-                                            //to calculate the index
-                                            var dims = execute(childrens[1]);
-                                            if (!string.IsNullOrWhiteSpace(dims.Value))
+                                            //in case is a function
+                                            if(classObject.Instructions != null)
                                             {
-                                                var data = dims.Value.Split(',');
-                                                foreach (var element in data)
+                                                ExecuteFunction(hijos[0]);
+                                            }
+                                            else
+                                            {
+                                                //to calculate the index
+                                                var dims = execute(childrens[1]);
+                                                if (!string.IsNullOrWhiteSpace(dims.Value))
                                                 {
-                                                    id += "[" + element + "]";
+                                                    var data = dims.Value.Split(',');
+                                                    foreach (var element in data)
+                                                    {
+                                                        id += "[" + element + "]";
+                                                    }
                                                 }
                                             }
                                             //obtaining the variable
-                                            System.Console.WriteLine("se esta buscando {0}", currentClass + "/" + id);
                                             iden = variables[currentClass + "/" + id];
                                             response.Value = iden.Value;
                                             response.Type = iden.Type;

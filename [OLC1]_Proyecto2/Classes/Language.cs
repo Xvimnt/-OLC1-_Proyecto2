@@ -210,7 +210,7 @@ namespace _OLC1__Proyecto2.Classes
             ESINGLE.Rule = NATIVE | ID | ToTerm("new") + iden + "(" + CFUNCLIST + ")";
             INDEX.Rule = INDEX + ToTerm("[") + E + "]" | Empty;
             ID.Rule = iden + IDPLUS;
-            IDPLUS.Rule = INDEX | Empty | "(" + CFUNCLIST + ")" + ";" | "." + ID;
+            IDPLUS.Rule = INDEX | Empty | "(" + CFUNCLIST + ")" | "." + ID;
             NATIVE.Rule = integer | caracter | String | boolean | tdouble;
             this.Root = START;
         }
