@@ -663,7 +663,7 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 else if(hijos[0].Term.Name == "ID")
                                 {
-                                    var childrens = hijos[0].ChildNodes.ToArray();
+                                    var childrens = hijos[0].ChildNodes;
                                     var id = childrens[0].Token.ValueString;
                                     //to calculate the index
                                     var dims = execute(childrens[1]);
@@ -676,7 +676,6 @@ namespace _OLC1__Proyecto2.Classes
                                         }
                                     }
                                     var iden = variables[currentClass + "/" +  id];
-
                                     switch (currentType)
                                     {
                                         case "int":
@@ -789,9 +788,10 @@ namespace _OLC1__Proyecto2.Classes
 
                                     }
                                 }
-
                                 else
                                 {
+                                    response.Type = hijos[0].Term.Name;
+                                    response.Value = hijos[0].Token.ValueString;
                                     switch (currentType)
                                     {
                                         case "int":
@@ -901,8 +901,6 @@ namespace _OLC1__Proyecto2.Classes
 
                                             }
                                             break;
-
-
                                     }
 
                                 }
