@@ -939,13 +939,45 @@ namespace _OLC1__Proyecto2.Classes
                                             }
                                         }
                                         break;
+
+                                    case "!":
+                                        {
+                                            
+                                            switch (op1.Type)
+                                            {
+                                                case "bool":
+                                                    {
+                                                        response.Type = "bool";
+                                                        if (op1.Value == "true")
+                                                        {
+                                                            response.Value = "false";
+                                                        }
+                                                        else
+                                                        {
+                                                            response.Value = "true";
+
+                                                        }
+                                                    }
+                                                    break;
+                                                default:
+                                                    string val = "!" + op1.Value;
+                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                    break;
+
+                                            }
+
+
+                                        }
+                                        break;
                                 }
                                 break;
                             case 3:
                                 op1 = execute(hijos[0]);
                                 operador = hijos[1].Token.ValueString;
+                                
                                 switch (operador)
                                 {
+                                    
                                     case "==":
                                         {
                                             var op2 = execute(hijos[2]);
