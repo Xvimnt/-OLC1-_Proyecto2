@@ -95,7 +95,7 @@ namespace _OLC1__Proyecto2.Classes
             var DEFAULT = new NonTerminal("DEFAULT");
             var CASELIST = new NonTerminal("CASELIST");
             var FUNCTION = new NonTerminal("FUNCTION");
-            var FUNCTION2 = new NonTerminal("FUNCTION2");
+            var FUNCTIONARGS = new NonTerminal("FUNCTIONARGS");
             var VISIBILITY = new NonTerminal("VISIBILITY");
             var OVERRIDE = new NonTerminal("OVERRIDE");
             var PARAMLIST = new NonTerminal("PARAMLIST");
@@ -104,9 +104,6 @@ namespace _OLC1__Proyecto2.Classes
             var RETURN = new NonTerminal("RETURN");
             var RETOPTION = new NonTerminal("RETOPTION");
             var LISTMETHODS = new NonTerminal("LISTMETHODS");
-            var LISTFUNCTIONS = new NonTerminal("LISTFUNCTIONS");
-            var LISTVARIABLE = new NonTerminal("LISTVARIABLE");
-            var BODYCLASS = new NonTerminal("BODYCLASS");
             var CLASS = new NonTerminal("CLASS");
             var EXTENDS = new NonTerminal("EXTENDS");
             var EXTENDSLIST = new NonTerminal("EXTENDSLIST");
@@ -118,18 +115,18 @@ namespace _OLC1__Proyecto2.Classes
             var MAIN = new NonTerminal("MAIN");
             var CLASSIMPLEMENTATION = new NonTerminal("CLASSIMPLEMENTATION");
             var CFUNCLIST = new NonTerminal("CFUNCLIST");
-
+            var LISTCLASSMETHODS = new NonTerminal("LISTCLASSMETHODS");
+            var LISTCLASSMETHODS2 = new NonTerminal("LISTCLASSMETHODS2");
 
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main");
-            this.MarkTransient(BODYCLASS,CLASSIMPLEMENTATION,FUNCTION2, BODY, ASSIGN2, DECLARATION2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE);
+            this.MarkPunctuation("(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main","return");
+            this.MarkTransient(LISTCLASSMETHODS2,CLASSIMPLEMENTATION, BODY, ASSIGN2, DECLARATION2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE,RETOPTION);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);
             CLASS.Rule = VISIBILITY + "clase" + iden + EXTENDSLIST + "{" + CLASSIMPLEMENTATION + "}";
-            CLASSIMPLEMENTATION.Rule = MakeStarRule(CLASSIMPLEMENTATION,BODYCLASS);
+            CLASSIMPLEMENTATION.Rule = MakeStarRule(CLASSIMPLEMENTATION, LISTCLASSMETHODS);
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
-            BODYCLASS.Rule = LISTFUNCTIONS | LISTVARIABLE | MAIN;
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
             BODY.Rule = FIGURE| ADDFIGURE| DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
             //methods inside a function
@@ -171,11 +168,11 @@ namespace _OLC1__Proyecto2.Classes
             COLOR.Rule = Empty | E; //it can be a string or id
             FIGURE.Rule = ToTerm("figure") + "(" + E + ")" + ";";
             //Methods inside a class
+            LISTCLASSMETHODS.Rule = VISIBILITY + LISTCLASSMETHODS2 | MAIN;
+            LISTCLASSMETHODS2.Rule = DECLARATION | FUNCTION;
             MAIN.Rule = ToTerm("main") + "(" + ")" + "{" + LISTMETHODS + "}";
-            LISTVARIABLE.Rule = MakePlusRule(LISTVARIABLE, VISIBILITY + DECLARATION);
-            LISTFUNCTIONS.Rule = MakePlusRule(LISTFUNCTIONS, FUNCTION);
-            FUNCTION.Rule = VISIBILITY + iden + FUNCTION2 + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
-            FUNCTION2.Rule = DATATYPE + OVERRIDE | ToTerm("array") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
+            FUNCTION.Rule = iden + FUNCTIONARGS + "(" + PARAMLIST + ")" + "{" + LISTMETHODS + "}";
+            FUNCTIONARGS.Rule = DATATYPE + OVERRIDE | ToTerm("array") + DATATYPE + INDEX + OVERRIDE | ToTerm("void");
             VISIBILITY.Rule = Empty | ToTerm("publico") | ToTerm("privado");
             OVERRIDE.Rule = Empty | ToTerm("override");
             PARAMLIST.Rule = MakeStarRule(PARAMLIST, ToTerm(","), PARAM);

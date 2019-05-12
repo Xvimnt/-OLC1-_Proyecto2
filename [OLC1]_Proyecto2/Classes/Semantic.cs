@@ -14,6 +14,7 @@ namespace _OLC1__Proyecto2.Classes
         private string console = "";
         private string main;
         private string currentType, currentID, currentClass = "",currentVisibility;
+        private bool retorno = false;
         private Dictionary<string,Var> variables = new Dictionary<string, Var>();
         private List<error> errores = new List<error>();
         private List<string> shows = new List<string>();
@@ -86,6 +87,7 @@ namespace _OLC1__Proyecto2.Classes
 
         public Result execute(ParseTreeNode node_)
         {
+            if (retorno) return null;
             Result response = new Result();
             if (node_ == null) return response;
             // Childrens Array for each node
@@ -127,25 +129,69 @@ namespace _OLC1__Proyecto2.Classes
                     this.main = this.currentClass + "/main";
                     variables.Add(this.main,new Var("funcion","main","publico",hijos[0]));
                     break;
-                case "LISTVARIABLE":
-                    var visibility = hijos[0].ChildNodes;
-                    if (visibility.Count != 0)
+                case "RETURN":
+                    var func = variables[this.currentClass];
+                    var functionType = func.Type;
+                    if(hijos.Length != 0)
                     {
-                        this.currentVisibility = visibility[0].Token.ValueString.ToLower();
+                        var itemReturn = execute(hijos[0]);
+                        response.Type = itemReturn.Type;
+                        currentType = functionType;
+                        if (comprobeTypes(response))
+                        {
+                            //assigning the return to the function
+                            func.Value = itemReturn.Value;
+                        }
+                        else
+                        {
+                            string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                            Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                        }
                     }
-                    else this.currentVisibility = "publico";
-                    execute(hijos[1]);
+                    else
+                    {
+                        if(functionType == "void")
+                        {
+                            retorno = true;
+                        }
+                        else
+                        {
+                            string val = "El metodo tiene que retornar una variable tipo " + functionType;
+                            Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                        }
+                    }
+                    retorno = true;
                     break;
                 case "FUNCTION":
-                    visibility = hijos[0].ChildNodes;
-                    if (visibility.Count != 0)
+                    var functionArgs = hijos[1].ChildNodes;
+                    switch (functionArgs.Count)
                     {
-                        this.currentVisibility = visibility[0].Token.ValueString.ToLower();
+                        case 1:
+                            //adding the function to our sym table
+                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].Token.ValueString, currentVisibility, node_));
+                            break;
+                        case 2:
+                            //adding the function to our sym table
+                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].ChildNodes[0].Token.ValueString, currentVisibility, node_));
+                            break;
+                        case 4:
+                            //adding the function to our sym table
+                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[1].ChildNodes[0].Token.ValueString, currentVisibility, node_));
+                            break;
                     }
-                    else this.currentVisibility = "publico";
-                    //adding the function to our sym table
-                    variables.Add(this.currentClass + "/" + hijos[1].Token.ValueString, new Var("funcion", hijos[2].Token.ValueString, currentVisibility,node_));
-
+                    break;
+                case "LISTCLASSMETHODS":
+                    if(hijos.Length > 1)
+                    {
+                        var visibility = hijos[0].ChildNodes;
+                        if (visibility.Count != 0)
+                        {
+                            this.currentVisibility = visibility[0].Token.ValueString.ToLower();
+                        }
+                        else this.currentVisibility = "publico";
+                        execute(hijos[1]);
+                    }
+                    else execute(hijos[0]);
                     break;
                 case "DECLARATION":
                     {
@@ -456,7 +502,7 @@ namespace _OLC1__Proyecto2.Classes
                         //obtaining the function in the sym table
                         var function = variables[name];
                         //to view if the function has parameters
-                        var paramlist = function.Instructions.ChildNodes[3];
+                        var paramlist = function.Instructions.ChildNodes[2];
                         //to save the name of the current class
                         var temp = this.currentClass;
                         this.currentClass = name;
@@ -483,7 +529,10 @@ namespace _OLC1__Proyecto2.Classes
                             }
                             flag++;
                         }
-                        execute(function.Instructions.ChildNodes[4]);
+                        //executing all the function instructions
+                        execute(function.Instructions.ChildNodes[3]);
+                        //in case a return is encountered
+                        retorno = false;
                         this.currentClass = temp;
                     }
                     break;
