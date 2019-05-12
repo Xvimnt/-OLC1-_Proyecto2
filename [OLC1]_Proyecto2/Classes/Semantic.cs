@@ -591,6 +591,7 @@ namespace _OLC1__Proyecto2.Classes
                     {
                         Result dim = execute(hijos[0]);
                         var lastDim = execute(hijos[1]);
+                        System.Console.WriteLine("me debería estar subiendo {0}",lastDim.Value);
                         if (!string.IsNullOrWhiteSpace(dim.Value))
                         {
                             response.Value = dim.Value + "," + lastDim.Value;
@@ -863,7 +864,6 @@ namespace _OLC1__Proyecto2.Classes
                                     //if the first id is a class 
                                     if (variables.ContainsKey(id))
                                     {
-                                        System.Console.WriteLine("Se obtiene ? {0}",id);
                                         var secondName = hijos[0].ChildNodes[1].ChildNodes[0].ChildNodes[0].Token.ValueString;
                                         iden = variables[id + "/" + secondName];
                                         if(iden.Instructions != null)
@@ -899,22 +899,9 @@ namespace _OLC1__Proyecto2.Classes
                                         else
                                         {
                                             //in case is a function
-                                            if(classObject.Instructions != null)
+                                            if (classObject.Instructions != null)
                                             {
                                                 ExecuteFunction(hijos[0]);
-                                            }
-                                            else
-                                            {
-                                                //to calculate the index
-                                                var dims = execute(childrens[1]);
-                                                if (!string.IsNullOrWhiteSpace(dims.Value))
-                                                {
-                                                    var data = dims.Value.Split(',');
-                                                    foreach (var element in data)
-                                                    {
-                                                        id += "[" + element + "]";
-                                                    }
-                                                }
                                             }
                                             //obtaining the variable
                                             iden = variables[currentClass + "/" + id];
@@ -1027,6 +1014,25 @@ namespace _OLC1__Proyecto2.Classes
                                                     break;
                                             }
                                         }
+                                    }
+                                    else
+                                    {
+                                        //is an array 
+                                        //to calculate the index
+                                        var dims = execute(childrens[1]);
+                                        if (!string.IsNullOrWhiteSpace(dims.Value))
+                                        {
+                                            var data = dims.Value.Split(',');
+                                            foreach (var element in data)
+                                            {
+                                                id += "[" + element + "]";
+                                            }
+                                        }
+                                        //obtaining the variable
+                                        iden = variables[currentClass + "/" + id];
+                                        response.Value = iden.Value;
+                                        response.Type = iden.Type;
+                                        //needs to comprobe types for arrays
                                     }
                                 }
                                 else
