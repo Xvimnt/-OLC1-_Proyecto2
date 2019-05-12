@@ -1521,7 +1521,7 @@ namespace _OLC1__Proyecto2.Classes
                                                             case "int":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = (double.Parse(op1.Value) < int.Parse(op2.Value));
+                                                                    bool result = (int.Parse(op1.Value) < int.Parse(op2.Value));
                                                                     response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
@@ -1721,12 +1721,6 @@ namespace _OLC1__Proyecto2.Classes
                                                                     break;
                                                             }
                                                         }
-                                                        else
-                                                        {
-                                                            response.Type = "bool";
-                                                            response.Value="false";
-                                                        }
-
                                                     }
                                                     break;
                                                 default:
@@ -2499,7 +2493,6 @@ namespace _OLC1__Proyecto2.Classes
                                             }
                                         }
                                         break;
-
                                     case "+":
                                         {
                                             var op2 = execute(hijos[2]);

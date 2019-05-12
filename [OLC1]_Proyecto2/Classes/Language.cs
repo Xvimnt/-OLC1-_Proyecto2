@@ -12,7 +12,7 @@ namespace _OLC1__Proyecto2.Classes
         public Language()
             : base(false)
         {
-            /*------------------JARED COMPROBAR--------------------------
+            /*------------------JARED COMPROBAR-------------------------- 
              * clases con variables globales y metodos
              * llamadas de funciones (acepta no creadas)
              *  tengo que implementar la asignacion para una funcion con retorno int v = hacer(a);

@@ -8,7 +8,7 @@ namespace _OLC1__Proyecto2.Classes
 {
     class Figure
     {
-        String tipofigura = "";
+        String tipofigura = ""; 
         String color = "";
         int pt1 = 0;
         int pt2 = 0;
