@@ -1318,6 +1318,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) < dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
@@ -1373,6 +1374,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) < dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
@@ -1637,6 +1639,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) > dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
@@ -1691,6 +1694,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) > dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
@@ -1875,6 +1879,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) <= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
@@ -1929,6 +1934,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) <= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
@@ -2109,9 +2115,11 @@ namespace _OLC1__Proyecto2.Classes
                                                                     {
                                                                         dato = 0;
                                                                     }
-
+                                                                    
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) >= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                    
                                                                 }
                                                                 break;
                                                             default:
@@ -2166,6 +2174,7 @@ namespace _OLC1__Proyecto2.Classes
 
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) >= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
