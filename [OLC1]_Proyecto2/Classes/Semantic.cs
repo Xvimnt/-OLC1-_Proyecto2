@@ -675,14 +675,235 @@ namespace _OLC1__Proyecto2.Classes
                                         }
                                     }
                                     var iden = variables[currentClass + "/" +  id];
-                                    response.Value = iden.Value;
-                                    response.Type = iden.Type;
+
+                                    switch (currentType)
+                                    {
+                                        case "int":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "int":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+
+                                        case "double":
+                                            {
+                                                switch (iden.Type)
+                                                {
+
+                                                    case "double":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+                                                            if (iden.Value == "0")
+                                                            {
+                                                                response.Value = iden.Value;
+                                                                response.Type = iden.Type;
+                                                            }
+                                                            else
+                                                            {
+                                                                string val = currentType + " != " + iden.Type;
+                                                                Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            }
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "string":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "string":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "char":
+                                            {
+                                                switch (iden.Type)
+                                                {
+                                                    case "char":
+                                                        {
+
+                                                            response.Value = iden.Value;
+                                                            response.Type = iden.Type;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + iden.Type;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "bool":
+                                            {
+
+                                                response.Value = iden.Value;
+                                                response.Type = iden.Type;
+
+                                            }
+                                            break;
+
+
+                                    }
                                 }
-                       
+
                                 else
                                 {
-                                    response.Type = hijos[0].Term.Name;
-                                    response.Value = hijos[0].Token.ValueString;
+                                    switch (currentType)
+                                    {
+                                        case "int":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "int":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+
+                                        case "double":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "double":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            if (hijos[0].Token.ValueString == "0")
+                                                            {
+                                                                response.Type = hijos[0].Term.Name;
+                                                                response.Value = hijos[0].Token.ValueString;
+                                                            }
+                                                            else
+                                                            {
+                                                                string val = currentType + " != " + hijos[0].Term.Name;
+                                                                Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            }
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "string":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "string":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+
+                                        case "char":
+                                            {
+                                                switch (hijos[0].Term.Name)
+                                                {
+                                                    case "char":
+                                                        {
+
+                                                            response.Type = hijos[0].Term.Name;
+                                                            response.Value = hijos[0].Token.ValueString;
+
+                                                        }
+                                                        break;
+                                                    default:
+                                                        {
+
+                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "bool":
+                                            {
+
+                                                response.Type = hijos[0].Term.Name;
+                                                response.Value = hijos[0].Token.ValueString;
+
+                                            }
+                                            break;
+
+
+                                    }
+
                                 }
                                 break;
                             case 2:
@@ -731,18 +952,56 @@ namespace _OLC1__Proyecto2.Classes
                                             {
                                                 case "int":
                                                     {
+
                                                         switch (op2.Type)
                                                         {
                                                             case "int":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (op1.Value == op2.Value);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value == op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (op1.Value == c.ToString());
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "bool":
+                                                                {
+                                                                    string dato = "";
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value == dato);
+                                                                    response.Value = String.Concat(result).ToLower();
+
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -757,12 +1016,48 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (op1.Value == op2.Value);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value == op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+
+                                                            case "char":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (op1.Value == c.ToString());
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    string dato = "";
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value == dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -776,13 +1071,13 @@ namespace _OLC1__Proyecto2.Classes
                                                             case "string":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = (op1.Value== op2.Value);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    bool result = (op1.Value == op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -799,18 +1094,39 @@ namespace _OLC1__Proyecto2.Classes
                                                                     int c = char.Parse(op2.Value);
                                                                     int a = char.Parse(op1.Value);
                                                                     bool result = (a == c);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    double c = Convert.ToDouble(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a == c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = Convert.ToInt32(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a == c);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
                                                         }
                                                     }
                                                     break;
+
                                                 case "bool":
                                                     {
                                                         switch (op2.Type)
@@ -819,12 +1135,46 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = op1.Value == op2.Value;
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    string dato = "";
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+                                                                    bool result = dato == op2.Value;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    string dato = "";
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+                                                                    bool result = dato == op2.Value;
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -847,12 +1197,47 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (op1.Value != op2.Value);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value != op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (op1.Value != c.ToString());
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "bool":
+                                                                {
+                                                                    string dato = "";
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value != dato);
+                                                                    response.Value = String.Concat(result).ToLower();
+
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -867,12 +1252,48 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (op1.Value != op2.Value);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value != op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+
+                                                            case "char":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (op1.Value != c.ToString());
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    string dato = "";
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (op1.Value != dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -886,13 +1307,13 @@ namespace _OLC1__Proyecto2.Classes
                                                             case "string":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = (op1.Value!= op2.Value);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    bool result = (op1.Value != op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -909,12 +1330,31 @@ namespace _OLC1__Proyecto2.Classes
                                                                     int c = char.Parse(op2.Value);
                                                                     int a = char.Parse(op1.Value);
                                                                     bool result = (a != c);
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    double c = Convert.ToDouble(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a != c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = Convert.ToInt32(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a != c);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -928,19 +1368,55 @@ namespace _OLC1__Proyecto2.Classes
                                                             case "bool":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = op1.Value!= op2.Value;
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    bool result = op1.Value != op2.Value;
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
+
+                                                            case "int":
+                                                                {
+                                                                    string dato = "";
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+                                                                    bool result = dato != op2.Value;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    string dato = "";
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = "1";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = "0";
+                                                                    }
+                                                                    bool result = dato != op2.Value;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
                                                         }
                                                     }
                                                     break;
+
                                             }
                                         }
                                         break;
@@ -957,19 +1433,48 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) < int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) < double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (int.Parse(op1.Value) < c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    int dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (int.Parse(op1.Value) < dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -984,19 +1489,163 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) < int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) < double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (double.Parse(op1.Value) < c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    double dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (double.Parse(op1.Value) < dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+
+                                                case "char":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "char":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a < c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    double c = Convert.ToDouble(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a < c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = Convert.ToInt32(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a < c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "bool":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "bool":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int dato;
+                                                                    int dato2;
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato2 = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato2 = 0;
+                                                                    }
+                                                                    bool result = dato < dato2;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato < int.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato < double.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -1005,7 +1654,7 @@ namespace _OLC1__Proyecto2.Classes
                                                     break;
                                                 default:
                                                     {
-                                                        string val = op1.Value+ " " + op2.Value;
+                                                        string val = op1.Value + " " + op2.Value;
                                                         Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                     }
                                                     break;
@@ -1095,7 +1744,7 @@ namespace _OLC1__Proyecto2.Classes
                                         break;
                                     case ">":
                                         {
-                                           var op2 = execute(hijos[2]);
+                                            var op2 = execute(hijos[2]);
                                             switch (op1.Type)
                                             {
                                                 case "int":
@@ -1106,19 +1755,47 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) > int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) > double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (int.Parse(op1.Value) > c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    int dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (int.Parse(op1.Value) > dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -1133,28 +1810,172 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) > int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) > double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (double.Parse(op1.Value) > c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    double dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (double.Parse(op1.Value) > dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
                                                         }
                                                     }
                                                     break;
+
+                                                case "char":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "char":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a > c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    double c = Convert.ToDouble(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a > c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = Convert.ToInt32(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a > c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "bool":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "bool":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int dato;
+                                                                    int dato2;
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato2 = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato2 = 0;
+                                                                    }
+                                                                    bool result = dato > dato2;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato > int.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato > double.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+
                                                 default:
                                                     {
-                                                        string val = op1.Value+ " " + op2.Value;
+                                                        string val = op1.Value + " " + op2.Value;
                                                         Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                     }
                                                     break;
@@ -1163,7 +1984,7 @@ namespace _OLC1__Proyecto2.Classes
                                         break;
                                     case "<=":
                                         {
-                                           var op2 = execute(hijos[2]);
+                                            var op2 = execute(hijos[2]);
                                             switch (op1.Type)
                                             {
                                                 case "int":
@@ -1174,19 +1995,47 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) <= int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = (int.Parse(op1.Value) <= double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    bool result = (double.Parse(op1.Value) <= double.Parse(op2.Value));
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (int.Parse(op1.Value) <= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    int dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (int.Parse(op1.Value) <= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -1201,19 +2050,162 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) <= int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) <= double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (double.Parse(op1.Value) <= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    double dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (double.Parse(op1.Value) <= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+
+                                                case "char":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "char":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a <= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    double c = Convert.ToDouble(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a <= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = Convert.ToInt32(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a <= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "bool":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "bool":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int dato;
+                                                                    int dato2;
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato2 = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato2 = 0;
+                                                                    }
+                                                                    bool result = dato <= dato2;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato <= int.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato <= double.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -1222,7 +2214,7 @@ namespace _OLC1__Proyecto2.Classes
                                                     break;
                                                 default:
                                                     {
-                                                        string val = op1.Value+ " " + op2.Value;
+                                                        string val = op1.Value + " " + op2.Value;
                                                         Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                     }
                                                     break;
@@ -1231,7 +2223,7 @@ namespace _OLC1__Proyecto2.Classes
                                         break;
                                     case ">=":
                                         {
-                                           var op2 = execute(hijos[2]);
+                                            var op2 = execute(hijos[2]);
                                             switch (op1.Type)
                                             {
                                                 case "int":
@@ -1242,19 +2234,48 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (int.Parse(op1.Value) >= int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = (int.Parse(op1.Value) >= double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    bool result = (double.Parse(op1.Value) >= double.Parse(op2.Value));
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (int.Parse(op1.Value) >= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    int dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (int.Parse(op1.Value) >= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
+
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -1269,19 +2290,162 @@ namespace _OLC1__Proyecto2.Classes
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) >= int.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             case "double":
                                                                 {
                                                                     response.Type = "bool";
                                                                     bool result = (double.Parse(op1.Value) >= double.Parse(op2.Value));
-                                                                    response.Value= String.Concat(result).ToLower();
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "char":
+                                                                {
+
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    bool result = (double.Parse(op1.Value) >= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "bool":
+                                                                {
+                                                                    double dato;
+
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+
+                                                                    response.Type = "bool";
+                                                                    bool result = (double.Parse(op1.Value) >= dato);
+                                                                    response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
                                                             default:
                                                                 {
-                                                                    string val = op1.Value+ " " + op2.Value;
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+
+                                                case "char":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "char":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = char.Parse(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a >= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            case "double":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    double c = Convert.ToDouble(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a >= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int c = Convert.ToInt32(op2.Value);
+                                                                    int a = char.Parse(op1.Value);
+                                                                    bool result = (a >= c);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
+                                                                    Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "bool":
+                                                    {
+                                                        switch (op2.Type)
+                                                        {
+                                                            case "bool":
+                                                                {
+                                                                    response.Type = "bool";
+                                                                    int dato;
+                                                                    int dato2;
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    if (op2.Value == "true")
+                                                                    {
+                                                                        dato2 = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato2 = 0;
+                                                                    }
+                                                                    bool result = dato >= dato2;
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "int":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato >= int.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            case "double":
+                                                                {
+                                                                    int dato;
+                                                                    response.Type = "bool";
+                                                                    if (op1.Value == "true")
+                                                                    {
+                                                                        dato = 1;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dato = 0;
+                                                                    }
+                                                                    bool result = dato >= double.Parse(op2.Value);
+                                                                    response.Value = String.Concat(result).ToLower();
+                                                                }
+                                                                break;
+
+                                                            default:
+                                                                {
+                                                                    string val = op1.Value + " " + op2.Value;
                                                                     Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                                 }
                                                                 break;
@@ -1290,14 +2454,14 @@ namespace _OLC1__Proyecto2.Classes
                                                     break;
                                                 default:
                                                     {
-                                                        string val = op1.Value+ " " + op2.Value;
+                                                        string val = op1.Value + " " + op2.Value;
                                                         Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
                                                     }
                                                     break;
                                             }
                                         }
                                         break;
-                                    
+
                                     case "+":
                                         {
                                             var op2 = execute(hijos[2]);
