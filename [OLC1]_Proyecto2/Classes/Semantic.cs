@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _OLC1__Proyecto2.Classes
 {
@@ -1488,7 +1489,7 @@ namespace _OLC1__Proyecto2.Classes
                                                             case "int":
                                                                 {
                                                                     response.Type = "bool";
-                                                                    bool result = (int.Parse(op1.Value) < int.Parse(op2.Value));
+                                                                    bool result = (double.Parse(op1.Value) < int.Parse(op2.Value));
                                                                     response.Value = String.Concat(result).ToLower();
                                                                 }
                                                                 break;
@@ -1687,6 +1688,11 @@ namespace _OLC1__Proyecto2.Classes
                                                                     }
                                                                     break;
                                                             }
+                                                        }
+                                                        else
+                                                        {
+                                                            response.Type = "bool";
+                                                            response.Value="false";
                                                         }
 
                                                     }
