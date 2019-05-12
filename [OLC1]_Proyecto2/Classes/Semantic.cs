@@ -734,7 +734,6 @@ namespace _OLC1__Proyecto2.Classes
                                         }
                                     }
                                     var iden = variables[currentClass + "/" +  id];
-
                                     switch (currentType)
                                     {
                                         case "int":
@@ -847,7 +846,6 @@ namespace _OLC1__Proyecto2.Classes
 
                                     }
                                 }
-
                                 else
                                 {
                                     response.Type = hijos[0].Term.Name;
@@ -961,8 +959,6 @@ namespace _OLC1__Proyecto2.Classes
 
                                             }
                                             break;
-
-
                                     }
 
                                 }
