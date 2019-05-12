@@ -28,7 +28,11 @@ namespace _OLC1__Proyecto2.Classes
         internal List<error> Errores { get => errores; set => errores = value; }
         public List<string> Shows { get => shows; set => shows = value; }
 
-      
+        public List<List<Figuras>> getListaLista() // metodo que llamo desde el semantico para obtener las figuras
+        {
+            return ListadeLista;
+        }
+
 
         private void addVariable(Result variable)
         {
