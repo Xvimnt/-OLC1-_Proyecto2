@@ -11,6 +11,11 @@ namespace _OLC1__Proyecto2.Classes
     {
         private string value, type, visibility;
         private ParseTreeNode instructions;
+
+        public Var()
+        {
+        }
+
         public Var(string value, string type, string visibility)
         {
             this.Value = value;

@@ -25,51 +25,18 @@ namespace _OLC1__Proyecto2.Classes
         internal List<error> Errores { get => errores; set => errores = value; }
         public List<string> Shows { get => shows; set => shows = value; }
 
-        private bool comprobeTypes(Result response)
-        {
-            return true;
-            if (response.Value == "null" || string.IsNullOrWhiteSpace(response.Value)) return true; ;
-            switch (currentType)
-            {
-                case "double":
-                    if (response.Type != "double" && response.Type != "int")
-                    {
-                        var val = currentType + " no es el mismo que " + response.Type + "<" + response.Value + ">";
-                        Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
-                        return false;
-                    }
-                    break;
-                default:
-                    if (response.Type != currentType)
-                    {
-                        var val = currentType + " no es el mismo que " + response.Type + "<" + response.Value + ">";
-                        Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
-                        return false;
-                    }
-                    break;
-            }
-            return true;
-        }
-
         private void addVariable(Result variable)
         {
             string varName = currentClass + "/" + currentID;
             if (!Variables.ContainsKey(varName))
             {
-                if (comprobeTypes(variable))
-                {
-                    Variables.Add(varName, new Var(variable.Value, currentType,currentVisibility));
-                }
+                Variables.Add(varName, new Var(variable.Value, currentType,currentVisibility));   
             }
             else
             {
                 var current = variables[varName];
-                currentType = current.Type;
-                if (comprobeTypes(variable))
-                {
-                    current.Value = variable.Value;
-                    current.Type = variable.Type;
-                }
+                current.Value = variable.Value;
+                current.Type = variable.Type;
             }
             
         }
@@ -104,14 +71,9 @@ namespace _OLC1__Proyecto2.Classes
                         //has implementation
                         //has visiblity
                         var visibilityc = hijos[0].ChildNodes.ToArray();
-                        if(visibilityc.Length == 0)
-                        {
-                            System.Console.WriteLine("no tiene visibilidad");
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("si tiene visibilidad {0}" , visibilityc[0].Token.Value.ToString().ToLower());
-                        }
+                        if(visibilityc.Length == 0) currentVisibility = "publico";
+                        else currentVisibility = visibilityc[0].Token.ValueString;
+                        
                         //has extends
                         var extends = hijos[2].ChildNodes.ToArray();
                         if (extends.Length == 0)
@@ -123,6 +85,7 @@ namespace _OLC1__Proyecto2.Classes
                             System.Console.WriteLine("si tiene inheritance ");
                         }
                         this.currentClass = hijos[1].Token.Value.ToString();
+                        variables.Add(this.currentClass, new Var("clase", "clase", currentVisibility));
                         execute(hijos[3]);
                     }
                     break;
@@ -136,9 +99,8 @@ namespace _OLC1__Proyecto2.Classes
                     if(hijos.Length != 0)
                     {
                         var itemReturn = execute(hijos[0]);
-                        response.Type = itemReturn.Type;
-                        currentType = functionType;
-                        if (comprobeTypes(response))
+                        // se tiene que comprobar los tipos de retornos en las funciones con itemReturn.Type y funcitionType
+                        if (true)
                         {
                             //assigning the return to the function
                             func.Value = itemReturn.Value;
@@ -661,21 +623,37 @@ namespace _OLC1__Proyecto2.Classes
                                 {
                                     response = execute(hijos[0]);
                                 }
-                                else if(hijos[0].Term.Name == "ID")
+                                else if (hijos[0].Term.Name == "ID")
                                 {
                                     var childrens = hijos[0].ChildNodes;
                                     var id = childrens[0].Token.ValueString;
-                                    //to calculate the index
-                                    var dims = execute(childrens[1]);
-                                    if (!string.IsNullOrWhiteSpace(dims.Value))
+                                    Var iden = new Var();
+                                    //if the first id is a class 
+                                    if (variables.ContainsKey(id))
                                     {
-                                        var data = dims.Value.Split(',');
-                                        foreach(var element in data)
+                                        var secondName = hijos[0].ChildNodes[1].ChildNodes[0].ChildNodes[0].Token.ValueString;
+                                        iden = variables[id + "/" + secondName];
+                                        if(iden.Instructions != null)
                                         {
-                                            id += "[" + element + "]";
+                                            execute(iden.Instructions);
                                         }
                                     }
-                                    var iden = variables[currentClass + "/" +  id];
+                                    else
+                                    {
+                                        //to calculate the index
+                                        var dims = execute(childrens[1]);
+                                        if (!string.IsNullOrWhiteSpace(dims.Value))
+                                        {
+                                            var data = dims.Value.Split(',');
+                                            foreach (var element in data)
+                                            {
+                                                id += "[" + element + "]";
+                                            }
+                                        }
+                                        //obtaining the variable
+                                        iden = variables[currentClass + "/" + id];
+                                    }
+                                    //comprobe types
                                     switch (currentType)
                                     {
                                         case "int":
@@ -684,10 +662,8 @@ namespace _OLC1__Proyecto2.Classes
                                                 {
                                                     case "int":
                                                         {
-
                                                             response.Value = iden.Value;
                                                             response.Type = iden.Type;
-
                                                         }
                                                         break;
                                                     default:
@@ -700,8 +676,6 @@ namespace _OLC1__Proyecto2.Classes
                                                 }
                                             }
                                             break;
-
-
                                         case "double":
                                             {
                                                 switch (iden.Type)
@@ -784,8 +758,6 @@ namespace _OLC1__Proyecto2.Classes
 
                                             }
                                             break;
-
-
                                     }
                                 }
                                 else
