@@ -49,7 +49,6 @@ namespace _OLC1__Proyecto2.Classes
             this.RegisterOperators(5, Associativity.Left, plus, minus);
             this.RegisterOperators(6, Associativity.Left, by, divided);
             this.RegisterOperators(7, Associativity.Left, power);
-
             //Regex
             var integer = new RegexBasedTerminal("int", "[0-9]+");
             var tdouble = TerminalFactory.CreateCSharpNumber("double");
