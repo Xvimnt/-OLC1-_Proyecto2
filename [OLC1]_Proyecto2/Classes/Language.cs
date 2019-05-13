@@ -133,7 +133,7 @@ namespace _OLC1__Proyecto2.Classes
             EXTENDSLIST.Rule = MakeStarRule(EXTENDSLIST, ToTerm(","), EXTENDS);
             EXTENDS.Rule = ToTerm("importar") + ID;
             LISTMETHODS.Rule = MakePlusRule(LISTMETHODS, BODY);
-            BODY.Rule = FIGURE | ADDFIGURE | DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
+            BODY.Rule = ID + ";" | FIGURE | ADDFIGURE | DECLARATION | ASSIGNATION | UPDATE + ";" | PRINT | SHOW | IF | FOR | REPEAT | WHILE | DOWHILE | SWITCH | OPTIONAL + ";" | Empty | CALLFUNC;
             //methods inside a function
             DECLARATION.Rule = DATATYPE + DECLARATION2 + ";";
 

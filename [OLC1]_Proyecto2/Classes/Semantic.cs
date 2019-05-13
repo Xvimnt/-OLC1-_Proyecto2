@@ -917,7 +917,10 @@ namespace _OLC1__Proyecto2.Classes
                                         //if is a function not a variable
                                         if(iden.Instructions != null)
                                         {
-                                            execute(iden.Instructions);
+                                            var temp = this.currentClass;
+                                            currentClass = id;
+                                            ExecuteFunction(hijos[0].ChildNodes[1].ChildNodes[0]);
+                                            currentClass = temp;
                                         }
                                         response.Type = iden.Type;
                                         response.Value = iden.Value;
@@ -3731,6 +3734,50 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 break;
                         }
+                    }
+                    break;
+                case "LISTMETHODS":
+                    response.Type = node_.Term.Name;
+                    foreach (var element in hijos)
+                    {
+                        
+                        if (element.Term.Name == "ID")
+                        {
+                            //obtain the name of the object
+                            var id = currentClass + "/" + element.ChildNodes[0].Token.ValueString;
+                            if (variables.ContainsKey(id))
+                            {
+                                var functionName = element.ChildNodes[1].ChildNodes[0].ChildNodes[0].Token.ValueString;
+                                var current = id;
+                                id += "/" + functionName;
+                                if (variables.ContainsKey(id))
+                                {
+                                    var classObject = variables[id];
+                                    //in case is a function
+                                    if (classObject.Instructions != null)
+                                    {
+                                        System.Console.WriteLine("se obtiene la funcion {0}",  id);
+                                        System.Console.WriteLine("la ejecucion se llama {0}", hijos[1].ChildNodes[1].ChildNodes[0]);
+                                        var temp = currentClass;
+                                        currentClass = current;
+                                        ExecuteFunction(hijos[1].ChildNodes[1].ChildNodes[0]);
+                                        currentClass = temp;
+                                    }
+                                }
+                                else
+                                {
+                                    //error function doesn't exists
+                                    System.Console.WriteLine("la funcion {0} no existe ", id);
+                                }
+                            }
+                            else
+                            {
+                                //error objeto no creado
+                                System.Console.WriteLine("el objeto {0} no existe ", id);
+                            }
+
+                        }
+                        else execute(element);
                     }
                     break;
                 default:
