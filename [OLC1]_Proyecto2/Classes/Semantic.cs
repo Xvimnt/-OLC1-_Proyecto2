@@ -997,8 +997,7 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 else
                                 {
-                                    response.Type = hijos[0].Term.Name;
-                                    response.Value = hijos[0].Token.ValueString;
+                                    
                                     switch (currentType)
                                     {
                                         case "int":
@@ -1007,7 +1006,7 @@ namespace _OLC1__Proyecto2.Classes
                                                 {
                                                     case "int":
                                                         {
-
+                                                            
                                                             response.Type = hijos[0].Term.Name;
                                                             response.Value = hijos[0].Token.ValueString;
 
@@ -1015,7 +1014,7 @@ namespace _OLC1__Proyecto2.Classes
                                                         break;
                                                     default:
                                                         {
-
+                                                          
                                                             string val = currentType + " != " + hijos[0].Term.Name;
                                                             Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
                                                         }
