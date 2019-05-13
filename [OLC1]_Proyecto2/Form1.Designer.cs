@@ -55,6 +55,7 @@
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.erroesSemanticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbInput.SuspendLayout();
@@ -144,7 +145,8 @@
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.erroresToolStripMenuItem,
             this.aSTToolStripMenuItem,
-            this.tokensToolStripMenuItem});
+            this.tokensToolStripMenuItem,
+            this.erroesSemanticosToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.reportesToolStripMenuItem.Text = "Reportes";
@@ -152,21 +154,21 @@
             // erroresToolStripMenuItem
             // 
             this.erroresToolStripMenuItem.Name = "erroresToolStripMenuItem";
-            this.erroresToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
+            this.erroresToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.erroresToolStripMenuItem.Text = "Errores";
             this.erroresToolStripMenuItem.Click += new System.EventHandler(this.erroresToolStripMenuItem_Click);
             // 
             // aSTToolStripMenuItem
             // 
             this.aSTToolStripMenuItem.Name = "aSTToolStripMenuItem";
-            this.aSTToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
+            this.aSTToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.aSTToolStripMenuItem.Text = "AST";
             this.aSTToolStripMenuItem.Click += new System.EventHandler(this.aSTToolStripMenuItem_Click);
             // 
             // tokensToolStripMenuItem
             // 
             this.tokensToolStripMenuItem.Name = "tokensToolStripMenuItem";
-            this.tokensToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
+            this.tokensToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.tokensToolStripMenuItem.Text = "Tokens";
             this.tokensToolStripMenuItem.Click += new System.EventHandler(this.tokensToolStripMenuItem_Click);
             // 
@@ -276,6 +278,13 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // erroesSemanticosToolStripMenuItem
+            // 
+            this.erroesSemanticosToolStripMenuItem.Name = "erroesSemanticosToolStripMenuItem";
+            this.erroesSemanticosToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.erroesSemanticosToolStripMenuItem.Text = "Erroes Semanticos";
+            this.erroesSemanticosToolStripMenuItem.Click += new System.EventHandler(this.erroesSemanticosToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -330,6 +339,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView tbVar;
         private System.Windows.Forms.ToolStripMenuItem tokensToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem erroesSemanticosToolStripMenuItem;
     }
 }
 
