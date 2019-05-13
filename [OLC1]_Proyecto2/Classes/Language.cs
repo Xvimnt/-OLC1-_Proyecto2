@@ -120,7 +120,7 @@ namespace _OLC1__Proyecto2.Classes
             var LISTOBJECTS = new NonTerminal("LISTCLASSMETHODS2");
 
             ////----------------------------------Innecesary nodes
-            this.MarkPunctuation(".","(", ")", "{", "}", "[", "]", ";", "=", ",", "if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main","return");
+            this.MarkPunctuation(".","(", ")", "{", "}", "[", "]", ";", "=", ",", "importar","if", "for", "repeat", "mientras", "show", "hacer", "comprobar", "salir", "caso", ":", "print", "defecto","clase","addfigure", "main","return");
             this.MarkTransient(DECLARATION2,LISTCLASSMETHODS2, CLASSIMPLEMENTATION, BODY, ASSIGN2,COLOR, ARRAY2, ARRAYASIGN, ARRAYASIGN2, ARRAYASIGN3, NATIVE, VARMANAGMENT, ESINGLE, ASSIGN, ARRAY,ADDFIGURE,RETOPTION);
             //----------------------------------Grammar
             START.Rule = MakePlusRule(START, CLASS);

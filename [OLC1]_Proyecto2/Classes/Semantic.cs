@@ -133,18 +133,43 @@ namespace _OLC1__Proyecto2.Classes
                 case "CLASS":
                     if(hijos.Length > 2)
                     {
-                        //has implementation
-                        //has extends
-                        var extends = hijos[1].ChildNodes.ToArray();
-                        if (extends.Length == 0)
-                        {
-                            System.Console.WriteLine("no tiene inheritance");
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("si tiene inheritance ");
-                        }
+                        //Got the currentClass name
                         this.currentClass = hijos[0].Token.Value.ToString();
+                        //extend list reference
+                        var extends = hijos[1].ChildNodes;
+                        //if has any extends
+                        //obtain the classes that extends
+                        foreach (var extend in extends)
+                        {
+                            var className = extend.ChildNodes[0].ChildNodes[0].Token.ValueString;
+                            if (variables.ContainsKey(className))
+                            {
+                                //get a pointer to that class in our dictonary
+                                var classVar = variables[extend.ChildNodes[0].ChildNodes[0].Token.ValueString];
+                                //copy all the functions and variables to that class
+                                Dictionary<string, Var> stack = new Dictionary<string, Var>();
+                                foreach (KeyValuePair<string, Var> entry in variables)
+                                {
+                                    if (entry.Key.StartsWith(className))
+                                    {
+                                        var data = entry.Key.Split('/');
+                                        //add the methods and not the class itself
+                                        if (data.Length > 1)
+                                        {
+                                            stack.Add(currentClass + "/" + data[1],
+                                        new Var(entry.Value.Value, entry.Value.Type, entry.Value.Visibility, entry.Value.Instructions));
+
+                                        }
+                                    }
+                                }
+                                foreach (KeyValuePair<string, Var> entry in stack)
+                                {
+                                    variables.Add(entry.Key, entry.Value);
+                                }
+
+                            }
+                        }
+                        //add the new class
                         variables.Add(this.currentClass, new Var("clase", "clase", "publico",null,response.Line,response.Column));
                         execute(hijos[2]);
                     }
@@ -872,10 +897,13 @@ namespace _OLC1__Proyecto2.Classes
                                     {
                                         var secondName = hijos[0].ChildNodes[1].ChildNodes[0].ChildNodes[0].Token.ValueString;
                                         iden = variables[id + "/" + secondName];
+                                        //if is a function not a variable
                                         if(iden.Instructions != null)
                                         {
                                             execute(iden.Instructions);
                                         }
+                                        response.Type = iden.Type;
+                                        response.Value = iden.Value;
                                     }
                                     //if the first id is an object or function
                                     else if (variables.ContainsKey(currentClass + "/" + id))
