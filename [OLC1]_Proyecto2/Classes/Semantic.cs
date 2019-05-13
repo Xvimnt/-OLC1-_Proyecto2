@@ -91,7 +91,14 @@ namespace _OLC1__Proyecto2.Classes
                     //obtain the type and the name of the param
                     Result parametro = execute(param);
                     //obtain the item for the function call
+                    //in case the parameter is an identificator
+                    if(calls[flag].ChildNodes[0].Term.Name == "ID")
+                    {
+                        //to obtain the parameter in the neccesary class
+                        currentClass = temp;
+                    }
                     var item = execute(calls[flag]);
+                    currentClass = name;
                     //add the item to our sym table before execute the method
                     variables.Add(this.currentClass + "/" + parametro.Value, new Var(item.Value, item.Type, "protected"));
                     flag++;
@@ -591,7 +598,6 @@ namespace _OLC1__Proyecto2.Classes
                     {
                         Result dim = execute(hijos[0]);
                         var lastDim = execute(hijos[1]);
-                        System.Console.WriteLine("me debería estar subiendo {0}",lastDim.Value);
                         if (!string.IsNullOrWhiteSpace(dim.Value))
                         {
                             response.Value = dim.Value + "," + lastDim.Value;
@@ -904,6 +910,7 @@ namespace _OLC1__Proyecto2.Classes
                                             //in case is a function
                                             if (classObject.Instructions != null)
                                             {
+                                                System.Console.WriteLine("se obtiene la funcion {0}", currentClass + "/" + id);
                                                 ExecuteFunction(hijos[0]);
                                             }
                                             //obtaining the variable
@@ -926,6 +933,7 @@ namespace _OLC1__Proyecto2.Classes
                                             }
                                         }
                                         //obtaining the variable
+                                        System.Console.WriteLine("se esta obteniendo la variable {0}", currentClass + "/" + id);
                                         iden = variables[currentClass + "/" + id];
                                         response.Value = iden.Value;
                                         response.Type = iden.Type;
