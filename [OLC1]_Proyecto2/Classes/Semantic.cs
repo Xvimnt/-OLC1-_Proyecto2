@@ -168,6 +168,11 @@ namespace _OLC1__Proyecto2.Classes
                                 }
 
                             }
+                            else
+                            {
+                                string val = className + " no es una clase valida";
+                                Errores.Add(new error(val, "Error semantico", "operacion invalida", response.Line, response.Column));
+                            }
                         }
                         //add the new class
                         variables.Add(this.currentClass, new Var("clase", "clase", "publico",null,response.Line,response.Column));
@@ -349,8 +354,20 @@ namespace _OLC1__Proyecto2.Classes
                             variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].Token.ValueString, currentVisibility, node_,response.Line,response.Column));
                             break;
                         case 2:
-                            //adding the function to our sym table
-                            variables.Add(this.currentClass + "/" + hijos[0].Token.ValueString, new Var("funcion", functionArgs[0].ChildNodes[0].Token.ValueString, currentVisibility, node_, response.Line, response.Column));
+                            //Comprobe if the function exists already in our class
+                            var funcName = this.currentClass + "/" + hijos[0].Token.ValueString;
+                            if (variables.ContainsKey(funcName))
+                            {
+                                //Override the existing function with the brand new function
+                                var Function = variables[funcName];
+                                Function.Type = functionArgs[0].ChildNodes[0].Token.ValueString;
+                                Function.Visibility = currentVisibility;
+                                Function.Instructions = node_;
+                                Function.Row = response.Line;
+                                Function.Column = response.Column;
+                            }
+                            //Otherwise add to our sym table and ignore the override
+                            else variables.Add(funcName, new Var("funcion", functionArgs[0].ChildNodes[0].Token.ValueString, currentVisibility, node_, response.Line, response.Column));
                             break;
                         case 4:
                             //adding the function to our sym table
