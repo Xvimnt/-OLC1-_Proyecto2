@@ -19,7 +19,7 @@ namespace _OLC1__Proyecto2.Classes
         private Dictionary<string,Var> variables = new Dictionary<string, Var>();
         private List<error> errores = new List<error>();
         private List<string> shows = new List<string>();
-
+        private List<string> nombresFigura = new List<string>();
         public List<Figuras> listafiguras = new List<Figuras>();
         public List<List<Figuras>> ListadeLista = new List<List<Figuras>>();
 
@@ -31,6 +31,11 @@ namespace _OLC1__Proyecto2.Classes
         public List<List<Figuras>> getListaLista() // metodo que llamo desde el semantico para obtener las figuras
         {
             return ListadeLista;
+        }
+
+        public List<string> GetTitle()
+        {
+            return nombresFigura;
         }
 
 
@@ -404,6 +409,9 @@ namespace _OLC1__Proyecto2.Classes
                 case "FIGURE":
                     {
                         //System.Console.WriteLine(execute(hijos[1]).Value);
+                        String nombre = execute(hijos[1]).Value;
+                        System.Console.WriteLine(nombre);
+                        nombresFigura.Add(nombre);
                         ListadeLista.Add(new List<Figuras>(listafiguras));
                         listafiguras.Clear();
 

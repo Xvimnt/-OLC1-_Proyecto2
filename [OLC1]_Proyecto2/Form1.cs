@@ -84,7 +84,7 @@ namespace _OLC1__Proyecto2
                         fillData(semanticA.Variables);
                         makeMessages(semanticA.Shows);
                     }
-                    AddImages(semanticA.getListaLista());
+                    AddImages(semanticA.getListaLista(),semanticA.GetTitle());
                     txtConsole.Text = semanticA.Console;
                 }
                 else
@@ -200,19 +200,22 @@ namespace _OLC1__Proyecto2
 
         }
 
-        private void AddImages(List<List<Figuras>> lista)
+        private void AddImages(List<List<Figuras>> lista,List<string> names)
         {
+            int i = 0;
             foreach (var item in lista)
             {
-                GenerarImagenes(item);
 
+                GenerarImagenes(item,names.ElementAt(i));
+                i++;
             }
         }
 
-        private void GenerarImagenes(List<Figuras> milista)
+        private void GenerarImagenes(List<Figuras> milista,string title)
         {
 
             Form ventana = new Form();
+            ventana.Text = title;
             ventana.WindowState = FormWindowState.Maximized;
             PictureBox lienzo = new PictureBox();
             lienzo.Width = Screen.PrimaryScreen.Bounds.Width;
@@ -620,6 +623,11 @@ namespace _OLC1__Proyecto2
         private void tokensToolStripMenuItem_Click(object sender, EventArgs e)
         {
             obtenerhtmltokens();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
