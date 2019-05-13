@@ -19,6 +19,8 @@ namespace _OLC1__Proyecto2
         public PictureBox actual = null;
         RichTextBox txtactual = null;
         ParseTree CurrentNode = null; Boolean BadEntrance = false;
+        Boolean semanticE = false;
+        List<error> SemanticMistake = null;
         public Form1()
         {
             InitializeComponent();
@@ -67,7 +69,7 @@ namespace _OLC1__Proyecto2
 
         public void Analize()
         {
-            BadEntrance = false;
+            BadEntrance = false;semanticE = false;
             Update();
             Parser p = new Parser(new LanguageData(new Language()));
             ParseTree tree = p.Parse(obtenerentrada().Text);
@@ -84,16 +86,15 @@ namespace _OLC1__Proyecto2
                         fillData(semanticA.Variables);
                         makeMessages(semanticA.Shows);
                     }
-                    AddImages(semanticA.getListaLista());
+                    AddImages(semanticA.getListaLista(),semanticA.GetTitle());
                     txtConsole.Text = semanticA.Console;
                 }
                 else
                 {
+                    semanticE = true;
                     Console.WriteLine("Errores semanticos");
-                    foreach (var error in semanticA.Errores)
-                    {
-                        txtConsole.Text += error.Description + " " + error.Value + " " + error.Line + " " + error.Column + "\n";
-                    }
+                    SemanticMistake = semanticA.Errores;
+                    
                 }
             }
             else
@@ -200,19 +201,22 @@ namespace _OLC1__Proyecto2
 
         }
 
-        private void AddImages(List<List<Figuras>> lista)
+        private void AddImages(List<List<Figuras>> lista,List<string> names)
         {
+            int i = 0;
             foreach (var item in lista)
             {
-                GenerarImagenes(item);
 
+                GenerarImagenes(item,names.ElementAt(i));
+                i++;
             }
         }
 
-        private void GenerarImagenes(List<Figuras> milista)
+        private void GenerarImagenes(List<Figuras> milista,string title)
         {
 
             Form ventana = new Form();
+            ventana.Text = title;
             ventana.WindowState = FormWindowState.Maximized;
             PictureBox lienzo = new PictureBox();
             lienzo.Width = Screen.PrimaryScreen.Bounds.Width;
@@ -569,6 +573,53 @@ namespace _OLC1__Proyecto2
             Process.Start("Tokens.html");
         }
 
+        public void obtenerErroresSemanticos()
+        {
+            StreamWriter write = new StreamWriter("SemanticE.html");
+            write.Write(cuerpoSemanticos());
+            write.Close();
+            Process.Start("SemanticE.html");
+        }
+
+        public String cuerpoSemanticos()
+        {
+            String info = " <html> \n" +
+      "<head><title>Tabla Errores Semanticos</title></head> \n" +
+      "<style style=\"text/css\"> \n" +
+             Style() +
+                "</style>" +
+      "<body>" +
+      "<h1>Tabla Tokens</h1>" +
+      "<table>" +
+                               "<tr>" +
+      "<th>Descripcion</th>" +
+      "<th>Valor</th>" +
+      "<th>Fila</th>" +
+      "<th>Columna</th>" +
+
+      "</tr>" + internalcodeSemantic(SemanticMistake) + "</table>" +
+      "</body>" +
+      "</html>";
+            return info;
+
+        }
+
+        private String internalcodeSemantic(List<error> mistakes)
+        {
+            String cuerpo = "";
+            foreach (var item in mistakes)
+            {
+
+
+                cuerpo += "<tr>" + "\n" +
+                  "<td>" + item.Description + "</td>" +
+                  "<td>" + item.Value + "</td>" +
+                  "<td>" + item.Line + "</td>" +
+                  "<td>" + item.Column + "</td>" + "</tr>" + "\n";
+            }
+            return cuerpo;
+        }
+
         public String cuerpotokens()
         {
             String info = " <html> \n" +
@@ -620,6 +671,23 @@ namespace _OLC1__Proyecto2
         private void tokensToolStripMenuItem_Click(object sender, EventArgs e)
         {
             obtenerhtmltokens();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void erroesSemanticosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (semanticE == true)
+            {
+                obtenerErroresSemanticos();
+            }
+            else
+            {
+                Console.WriteLine("No hay Errores Semanticos");
+            }
         }
     }
 }

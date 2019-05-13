@@ -41,6 +41,7 @@
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aSTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbInput = new System.Windows.Forms.TabPage();
             this.txtInput = new System.Windows.Forms.RichTextBox();
@@ -54,7 +55,7 @@
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erroesSemanticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbInput.SuspendLayout();
@@ -93,7 +94,7 @@
             // crearToolStripMenuItem
             // 
             this.crearToolStripMenuItem.Name = "crearToolStripMenuItem";
-            this.crearToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.crearToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.crearToolStripMenuItem.Text = "Crear";
             this.crearToolStripMenuItem.Click += new System.EventHandler(this.crearToolStripMenuItem_Click);
             // 
@@ -144,7 +145,8 @@
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.erroresToolStripMenuItem,
             this.aSTToolStripMenuItem,
-            this.tokensToolStripMenuItem});
+            this.tokensToolStripMenuItem,
+            this.erroesSemanticosToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.reportesToolStripMenuItem.Text = "Reportes";
@@ -162,6 +164,13 @@
             this.aSTToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.aSTToolStripMenuItem.Text = "AST";
             this.aSTToolStripMenuItem.Click += new System.EventHandler(this.aSTToolStripMenuItem_Click);
+            // 
+            // tokensToolStripMenuItem
+            // 
+            this.tokensToolStripMenuItem.Name = "tokensToolStripMenuItem";
+            this.tokensToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.tokensToolStripMenuItem.Text = "Tokens";
+            this.tokensToolStripMenuItem.Click += new System.EventHandler(this.tokensToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -269,12 +278,12 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // tokensToolStripMenuItem
+            // erroesSemanticosToolStripMenuItem
             // 
-            this.tokensToolStripMenuItem.Name = "tokensToolStripMenuItem";
-            this.tokensToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.tokensToolStripMenuItem.Text = "Tokens";
-            this.tokensToolStripMenuItem.Click += new System.EventHandler(this.tokensToolStripMenuItem_Click);
+            this.erroesSemanticosToolStripMenuItem.Name = "erroesSemanticosToolStripMenuItem";
+            this.erroesSemanticosToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.erroesSemanticosToolStripMenuItem.Text = "Erroes Semanticos";
+            this.erroesSemanticosToolStripMenuItem.Click += new System.EventHandler(this.erroesSemanticosToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -287,6 +296,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -329,6 +339,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView tbVar;
         private System.Windows.Forms.ToolStripMenuItem tokensToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem erroesSemanticosToolStripMenuItem;
     }
 }
 
