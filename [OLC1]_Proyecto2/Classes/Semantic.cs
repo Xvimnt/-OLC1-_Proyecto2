@@ -1017,6 +1017,7 @@ namespace _OLC1__Proyecto2.Classes
                                                           
                                                             string val = currentType + " != " + hijos[0].Term.Name;
                                                             Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
+                                                            
                                                         }
                                                         break;
                                                 }
