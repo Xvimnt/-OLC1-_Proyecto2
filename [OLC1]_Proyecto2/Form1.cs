@@ -76,7 +76,7 @@ namespace _OLC1__Proyecto2
             if (tree.Root != null) {
                 Semantic semanticA = new Semantic();
                 this.root = tree.Root;
-                semanticA.execute(tree.Root);
+               semanticA.execute(tree.Root);
                 CurrentNode = tree;
                 semanticA.Thread();
                 if (semanticA.Errores.Count == 0)

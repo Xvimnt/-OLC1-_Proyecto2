@@ -16,7 +16,7 @@ namespace _OLC1__Proyecto2.Classes
         private string main;
         private string currentType, currentID, currentClass = "",currentVisibility;
         private bool retorno = false;
-        private Dictionary<string,Var> variables = new Dictionary<string, Var>(StringComparer.InvariantCultureIgnoreCase);
+        private Dictionary<string,Var> variables = new Dictionary<string, Var>();
         private List<error> errores = new List<error>();
         private List<string> shows = new List<string>();
         private List<string> nombresFigura = new List<string>();
@@ -25,7 +25,7 @@ namespace _OLC1__Proyecto2.Classes
 
         public string Console { get => console; set => console = value; }
         internal Dictionary<string, Var> Variables { get => variables; set => variables = value; }
-                internal List<error> Errores { get => errores; set => errores = value; }
+        internal List<error> Errores { get => errores; set => errores = value; }
         public List<string> Shows { get => shows; set => shows = value; }
 
         public List<List<Figuras>> getListaLista() // metodo que llamo desde el semantico para obtener las figuras
@@ -44,7 +44,19 @@ namespace _OLC1__Proyecto2.Classes
             string varName = currentClass + "/" + currentID;
             if (!Variables.ContainsKey(varName))
             {
-                Variables.Add(varName, new Var(variable.Value, currentType,currentVisibility,null,variable.Line,variable.Column));   
+                switch (currentType.ToLower())
+                {
+                    case "int":
+                    case "string":
+                    case "char":
+                    case "double":
+                    case "bool":
+                    Variables.Add(varName, new Var(variable.Value, currentType.ToLower(), currentVisibility, null, variable.Line, variable.Column));
+                    break;
+                    default:
+                        Variables.Add(varName, new Var(variable.Value, currentType, currentVisibility, null, variable.Line, variable.Column));
+                        break;
+                }
             }
             else
             {
@@ -997,117 +1009,8 @@ namespace _OLC1__Proyecto2.Classes
                                 }
                                 else
                                 {
-                                    
-                                    switch (currentType.ToLower())
-                                    {
-                                        case "int":
-                                            {
-                                                switch (hijos[0].Term.Name)
-                                                {
-                                                    case "int":
-                                                        {
-                                                            
-                                                            response.Type = hijos[0].Term.Name;
-                                                            response.Value = hijos[0].Token.ValueString;
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-                                                          
-                                                            string val = currentType.ToLower() + " != " + hijos[0].Term.Name;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                            
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-
-
-                                        case "double":
-                                            {
-                                                switch (hijos[0].Term.Name)
-                                                {
-                                                    case "double":
-                                                        {
-
-                                                            response.Type = hijos[0].Term.Name;
-                                                            response.Value = hijos[0].Token.ValueString;
-
-                                                        }
-                                                        break;
-                                                    case "int":
-                                                        {
-                                                            response.Type = hijos[0].Term.Name;
-                                                            response.Value = hijos[0].Token.ValueString;
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-
-                                                            string val = currentType + " != " + hijos[0].Term.Name;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-                                        case "string":
-                                            {
-                                                switch (hijos[0].Term.Name)
-                                                {
-                                                    case "string":
-                                                        {
-
-                                                            response.Type = hijos[0].Term.Name;
-                                                            response.Value = hijos[0].Token.ValueString;
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-
-                                                            string val = currentType + " != " + hijos[0].Term.Name;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-
-                                        case "char":
-                                            {
-                                                switch (hijos[0].Term.Name)
-                                                {
-                                                    case "char":
-                                                        {
-
-                                                            response.Type = hijos[0].Term.Name;
-                                                            response.Value = hijos[0].Token.ValueString;
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        {
-
-                                                            string val = currentType + " != " + hijos[0].Term.Name;
-                                                            Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
-                                                        }
-                                                        break;
-                                                }
-                                            }
-                                            break;
-                                        case "bool":
-                                            {
-
-                                                response.Type = hijos[0].Term.Name;
-                                                response.Value = hijos[0].Token.ValueString;
-
-                                            }
-                                            break;
-                                    }
+                                    response.Type = hijos[0].Term.Name;
+                                    response.Value = hijos[0].Token.ValueString;
 
                                 }
                                 break;
@@ -3764,6 +3667,8 @@ namespace _OLC1__Proyecto2.Classes
                                     //in case is a function
                                     if (classObject.Instructions != null)
                                     {
+                                        System.Console.WriteLine("se obtiene la funcion {0}",  id);
+                                        System.Console.WriteLine("la ejecucion se llama {0}", hijos[1].ChildNodes[1].ChildNodes[0]);
                                         var temp = currentClass;
                                         currentClass = current;
                                         ExecuteFunction(element.ChildNodes[1].ChildNodes[0]);

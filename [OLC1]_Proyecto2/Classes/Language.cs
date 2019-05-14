@@ -12,13 +12,7 @@ namespace _OLC1__Proyecto2.Classes
         public Language()
             : base(false)
         {
-            /*------------------JARED COMPROBAR-------------------------- 
-             * clases con variables globales y metodos
-             * llamadas de funciones (acepta no creadas)
-             *  tengo que implementar la asignacion para una funcion con retorno int v = hacer(a);
-             *  la funcion para anadir figuras
-             *  la funcion firgure para ponerle nombre a las figuras
-             */
+
             CommentTerminal LINE_COMMENT = new CommentTerminal("LINE_COMMENT", ">>", "\n", "\r\n");
             CommentTerminal BLOCK_COMMENT = new CommentTerminal("BLOCK_COMMENT", "<-", "->");
             NonGrammarTerminals.Add(BLOCK_COMMENT);
