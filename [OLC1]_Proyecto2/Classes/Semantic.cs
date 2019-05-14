@@ -3764,11 +3764,9 @@ namespace _OLC1__Proyecto2.Classes
                                     //in case is a function
                                     if (classObject.Instructions != null)
                                     {
-                                        System.Console.WriteLine("se obtiene la funcion {0}",  id);
-                                        System.Console.WriteLine("la ejecucion se llama {0}", hijos[1].ChildNodes[1].ChildNodes[0]);
                                         var temp = currentClass;
                                         currentClass = current;
-                                        ExecuteFunction(hijos[1].ChildNodes[1].ChildNodes[0]);
+                                        ExecuteFunction(element.ChildNodes[1].ChildNodes[0]);
                                         currentClass = temp;
                                     }
                                 }
