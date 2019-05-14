@@ -16,7 +16,7 @@ namespace _OLC1__Proyecto2.Classes
         private string main;
         private string currentType, currentID, currentClass = "",currentVisibility;
         private bool retorno = false;
-        private Dictionary<string,Var> variables = new Dictionary<string, Var>();
+        private Dictionary<string,Var> variables = new Dictionary<string, Var>(StringComparer.InvariantCultureIgnoreCase);
         private List<error> errores = new List<error>();
         private List<string> shows = new List<string>();
         private List<string> nombresFigura = new List<string>();
@@ -25,7 +25,7 @@ namespace _OLC1__Proyecto2.Classes
 
         public string Console { get => console; set => console = value; }
         internal Dictionary<string, Var> Variables { get => variables; set => variables = value; }
-        internal List<error> Errores { get => errores; set => errores = value; }
+                internal List<error> Errores { get => errores; set => errores = value; }
         public List<string> Shows { get => shows; set => shows = value; }
 
         public List<List<Figuras>> getListaLista() // metodo que llamo desde el semantico para obtener las figuras
@@ -403,7 +403,7 @@ namespace _OLC1__Proyecto2.Classes
                     break;
                 case "DATATYPE":
                     {
-                        currentType = hijos[0].Token.ValueString.ToLower();
+                        currentType = hijos[0].Token.ValueString;
                     }
                     break;
                 case "PRINT":
@@ -998,7 +998,7 @@ namespace _OLC1__Proyecto2.Classes
                                 else
                                 {
                                     
-                                    switch (currentType)
+                                    switch (currentType.ToLower())
                                     {
                                         case "int":
                                             {
@@ -1015,7 +1015,7 @@ namespace _OLC1__Proyecto2.Classes
                                                     default:
                                                         {
                                                           
-                                                            string val = currentType + " != " + hijos[0].Term.Name;
+                                                            string val = currentType.ToLower() + " != " + hijos[0].Term.Name;
                                                             Errores.Add(new error(val, "Error semantico", "Asignacion incorrecta", response.Line, response.Column));
                                                             
                                                         }

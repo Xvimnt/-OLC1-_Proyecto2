@@ -78,9 +78,10 @@ namespace _OLC1__Proyecto2
                 this.root = tree.Root;
                 semanticA.execute(tree.Root);
                 CurrentNode = tree;
+                semanticA.Thread();
                 if (semanticA.Errores.Count == 0)
                 {
-                    semanticA.Thread();
+                    
                     if (semanticA.Variables.Count != 0)
                     {
                         fillData(semanticA.Variables);
