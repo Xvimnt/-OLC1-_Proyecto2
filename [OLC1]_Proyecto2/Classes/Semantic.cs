@@ -22,6 +22,7 @@ namespace _OLC1__Proyecto2.Classes
         private List<string> nombresFigura = new List<string>();
         public List<Figuras> listafiguras = new List<Figuras>();
         public List<List<Figuras>> ListadeLista = new List<List<Figuras>>();
+        private bool obj;
 
         public string Console { get => console; set => console = value; }
         internal Dictionary<string, Var> Variables { get => variables; set => variables = value; }
@@ -41,7 +42,21 @@ namespace _OLC1__Proyecto2.Classes
 
         private void addVariable(Result variable)
         {
-            string varName = currentClass + "/" + currentID;
+            string varName = "";
+            if (obj)
+            {
+                var classArray = currentClass.Split('/');
+                var newClass = "";
+                for (int i = 0; i < (classArray.Length - 1); i++)
+                {
+                    newClass += classArray[i] + "/";
+                }
+                varName = newClass + currentID;
+            }
+            else
+            {
+                varName = currentClass + "/" + currentID;
+            }
             if (!Variables.ContainsKey(varName))
             {
                 switch (currentType.ToLower())
@@ -126,12 +141,14 @@ namespace _OLC1__Proyecto2.Classes
                 string val = "La llamada a la funcion " + callfunc.ChildNodes[0].Token.ValueString + " no recibe los parametros correctos";
                 Errores.Add(new error(val, "Error semantico", "operacion invalida", callfunc.Span.Location.Line, callfunc.Span.Location.Line));
             }
-
+            //if this is an object then the current class needs to be that object
+            
             //executing all the function instructions
             execute(function.Instructions.ChildNodes[3]);
             //in case a return is encountered
             retorno = false;
             this.currentClass = temp;
+
         }
 
 
@@ -205,9 +222,8 @@ namespace _OLC1__Proyecto2.Classes
                     var functionType = func.Type;
                     if (hijos.Length != 0)
                     {
-
                         var itemReturn = execute(hijos[0]);
-                        switch (functionType)
+                        switch (functionType.ToLower())
                         {
                             case "int":
                                 {
@@ -950,7 +966,7 @@ namespace _OLC1__Proyecto2.Classes
                                     {
                                         //obtain the class of the object
                                         var classObject = variables[currentClass + "/" + id];
-                                        //if the class of the object Exists then is an object otherwise is a function
+                                        //if the class of the object Exists then is an object otherwise is just a function
                                         if (variables.ContainsKey(classObject.Type))
                                         {
                                             //make a copy of currentId to restore later
@@ -962,8 +978,29 @@ namespace _OLC1__Proyecto2.Classes
                                             {
                                                 //access to the object information
                                                 var resVariable = variables[currentClass + "/" + id + "/" + currentID + path.Value];
-                                                response.Value = resVariable.Value;
-                                                response.Type = resVariable.Type;
+                                                //switch type to view if is a function or a variable
+                                                switch (resVariable.Type)
+                                                {
+                                                    case "int":
+                                                    case "string":
+                                                    case "char":
+                                                    case "double":
+                                                    case "bool":
+                                                        response.Value = resVariable.Value;
+                                                        response.Type = resVariable.Type;
+                                                        break;
+                                                    default:
+                                                        var classSave = currentClass;
+                                                        currentClass = currentClass + "/" + id;
+                                                        obj = true;
+                                                        ExecuteFunction(hijos[0].ChildNodes[1].ChildNodes[0]);
+                                                        response.Value = resVariable.Value;
+                                                        response.Type = resVariable.Type;
+                                                        obj = false;
+                                                        currentClass = classSave;
+                                                        break;
+                                                }
+                                                
                                             }
                                             else
                                             {
@@ -1001,8 +1038,22 @@ namespace _OLC1__Proyecto2.Classes
                                             }
                                         }
                                         //obtaining the variable
-                                        System.Console.WriteLine("se esta obteniendo la variable {0}", currentClass + "/" + id);
-                                        iden = variables[currentClass + "/" + id];
+                                        string varName = "";
+                                        if (obj)
+                                        {
+                                            var classArray = currentClass.Split('/');
+                                            var newClass = "";
+                                            for (int i = 0; i < (classArray.Length - 1); i++)
+                                            {
+                                                newClass += classArray[i] + "/";
+                                            }
+                                            varName = newClass + id;
+                                        }
+                                        else
+                                        {
+                                            varName = currentClass + "/" + id;
+                                        }
+                                        iden = variables[varName];
                                         response.Value = iden.Value;
                                         response.Type = iden.Type;
                                     }
@@ -3671,7 +3722,9 @@ namespace _OLC1__Proyecto2.Classes
                                         System.Console.WriteLine("la ejecucion se llama {0}", hijos[1].ChildNodes[1].ChildNodes[0]);
                                         var temp = currentClass;
                                         currentClass = current;
+                                        obj = true;
                                         ExecuteFunction(element.ChildNodes[1].ChildNodes[0]);
+                                        obj = false;
                                         currentClass = temp;
                                     }
                                 }
